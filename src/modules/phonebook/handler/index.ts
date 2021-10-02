@@ -12,13 +12,12 @@ phonebook.get('/phonebook', async (req, res) => {
 })
 
 phonebook.post('/phonebook', validate(StoreSchema, 'body'), async (req, res) => {
-  try {
-    await unique('phonebooks', 'email', req.body.email)
-    await storeService(req.body)
-    res.status(httpStatus.CREATED).json({ message: 'CREATED' })
-  } catch (error) {
+  const rules = await unique('phonebooks', 'email', req.body.email)
+  if (rules.result) return res.json(rules.errors)
 
-  }
+  await storeService(req.body)
+
+  res.status(201).json({ message: 'CREATED' })
 })
 
 export default phonebook

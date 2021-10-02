@@ -39,8 +39,8 @@ export const unique = async (table: string, key: string, value: string, primaryK
 export const exists = async (table: string, key: string, value: string): Promise<rulesInterface> => {
   const item: any = await data(table, key, value)
 
-  if (!item) rules.result = false
-  rules.result = true
+  if (!item) rules.result = true
+  else rules.result = false
 
   rules.errors = {
     errors: {
