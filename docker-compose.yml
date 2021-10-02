@@ -9,8 +9,6 @@ services:
     image: boilerplate-express
     env_file:
       - .env
-    environment:
-      REDIS_HOST: redis
     ports:
       - "${PORT}:${PORT}"
     networks:
