@@ -1,3 +1,3 @@
-import start from './modules/start'
+import start from './module/start'
 
 start()

@@ -17,5 +17,6 @@
     "ecmaVersion": 2021
   },
   "rules": {
+    "camelcase": "off"
   }
 }

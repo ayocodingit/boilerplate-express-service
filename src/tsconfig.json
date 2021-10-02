@@ -10,5 +10,9 @@
     "resolveJsonModule": true,
     "removeComments": true,
     "skipLibCheck": true
-  }
+  },
+  "include": [
+    "**/*.ts",
+    "module/**/*.json"
+  ]
 }
