@@ -1,5 +1,5 @@
-import { message } from ".."
-import database from "../../../../config/database"
+import { message } from '..'
+import database from '../../../../config/database'
 
 interface rulesInterface {
   result: boolean,
@@ -10,16 +10,19 @@ interface rulesInterface {
   }
 }
 
-const data = (table: string, key: string, value: string) => {
-  return database(table).where(key, value).first()
-}
-
 const rules: rulesInterface = {
-  result: false,
+  result: false
 }
 
-export const unique = async (table: string, key: string, value: string): Promise<rulesInterface> => {
-  const item: any = await data(table, key, value)
+
+const data = (table: string, key: string, value: string, primaryKey?: string, primaryKeyValue?: string | number) => {
+  const query = database(table).where(key, value)
+  if (primaryKey && primaryKeyValue) query.where(primaryKey, '!=', primaryKeyValue)
+  return query.first()
+}
+
+export const unique = async (table: string, key: string, value: string, primaryKey?: string, primaryKeyValue?: string | number): Promise<rulesInterface> => {
+  const item: any = await data(table, key, value, primaryKey, primaryKeyValue)
 
   if (item) rules.result = true
   else rules.result = false

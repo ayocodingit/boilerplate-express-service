@@ -1,6 +1,6 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-import phonebook from './modules/phonebook/handler/routes'
+import phonebook from './modules/phonebook/handler'
 import config from './config'
 import { onError } from './handler/exception'
 import sentryTransaction from './middleware/sentry'
@@ -11,7 +11,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.use(sentryTransaction)
+// load module
 app.use('/api', jwt, phonebook)
+// end load module
 app.use(onError)
 
 const PORT = config.get('port')
