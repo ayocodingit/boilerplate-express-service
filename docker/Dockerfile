@@ -4,10 +4,10 @@ RUN apk add nodejs yarn && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
-COPY src/package.json ./
-
 ENV PORT 3003
 ENV NODE_ENV production
+
+COPY src/package.json ./
 
 RUN yarn install
 
@@ -16,7 +16,7 @@ COPY src .
 RUN yarn run build
 
 RUN addgroup -S pptruser && adduser -S -g pptruser pptruser \
-    && mkdir -p /app /app/tmp \
+    && mkdir -p /app \
     && chown -R pptruser:pptruser /home/pptruser \
     && chown -R pptruser:pptruser /app
 
