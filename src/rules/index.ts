@@ -1,5 +1,5 @@
-import { message } from '..'
-import database from '../../../../config/database'
+import { message } from '../modules/phonebook/validator'
+import database from '../config/database'
 
 interface rulesInterface {
   result: boolean,
@@ -13,7 +13,6 @@ interface rulesInterface {
 const rules: rulesInterface = {
   result: false
 }
-
 
 const data = (table: string, key: string, value: string, primaryKey?: string, primaryKeyValue?: string | number) => {
   const query = database(table).where(key, value)

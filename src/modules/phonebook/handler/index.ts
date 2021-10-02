@@ -2,7 +2,7 @@ import express from 'express'
 import httpStatus from 'http-status'
 import { indexService, storeService } from '../service'
 import { validate } from '../validator'
-import { unique } from '../validator/rules'
+import { unique } from '../../../rules'
 import { StoreSchema } from '../validator/schemas'
 
 const phonebook = express.Router()
@@ -17,7 +17,7 @@ phonebook.post('/phonebook', validate(StoreSchema, 'body'), async (req, res) => 
 
   await storeService(req.body)
 
-  res.status(201).json({ message: 'CREATED' })
+  res.status(httpStatus.CREATED).json({ message: 'CREATED' })
 })
 
 export default phonebook

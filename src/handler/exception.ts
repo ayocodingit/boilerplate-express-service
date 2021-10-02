@@ -19,10 +19,10 @@ export const onError = (error: any, request: express.Request, response: express.
 }
 
 export class HttpError extends CustomError {
-  public constructor(
+  public constructor (
       public code: number,
-      message?: string,
+      message?: string
   ) {
-      super(message)
+    super(message)
   }
 }
