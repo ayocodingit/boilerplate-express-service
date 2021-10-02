@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/node'
-import config from '../config'
+import config from '.'
 
 Sentry.init({
   dsn: config.get('sentry.dsn'),

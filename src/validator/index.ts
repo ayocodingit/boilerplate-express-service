@@ -1,5 +1,5 @@
 import { Schema } from 'joi'
-import messages from './messages'
+import messages from './message'
 
 const validate = (schema: Schema, property: string) => {
   return (req: any, res: any, next: any) => {

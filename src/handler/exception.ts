@@ -1,5 +1,5 @@
 import * as express from 'express'
-import sentryCaptureException from './exception'
+import Sentry from '../config/sentry'
 
 export const onError = (error: any, request: express.Request, response: express.Response, next: any) => {
   if (error.code >= 500) {
@@ -12,7 +12,7 @@ export const onError = (error: any, request: express.Request, response: express.
       message: error.message
     }
     console.log(JSON.stringify(logger))
-    sentryCaptureException(error)
+    Sentry.captureException(error)
   }
   next(error)
 }

@@ -1,7 +1,7 @@
-import sentry from './sentry'
+import sentry from '../config/sentry'
 import * as express from 'express'
 
-export const sentryTransaction = (req: express.Request, res: express.Request, next: any) => {
+export default (req: express.Request, res: express.Request, next: any) => {
   const transaction = sentry.startTransaction({
     op: 'transaction',
     name: req.url

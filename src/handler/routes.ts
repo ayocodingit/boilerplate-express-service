@@ -5,11 +5,11 @@ import { StoreSchema } from '../validator/schemas'
 
 const router = express.Router()
 
-router.get('/phonebooks', async (req, res) => {
+router.get('/', async (req, res) => {
   res.json(await indexService())
 })
 
-router.post('/phonebooks', validate(StoreSchema, 'body'), async (req, res) => {
+router.post('/', validate(StoreSchema, 'body'), async (req, res) => {
   res.json(await storeService(req.body))
 })
 
