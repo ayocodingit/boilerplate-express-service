@@ -11,5 +11,6 @@ export const storeService = (body: any) => {
     phone_number: body.phone_number,
     email: body.email
   }
+
   return storeRepository(data)
 }

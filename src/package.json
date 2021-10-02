@@ -16,7 +16,8 @@
     "knex": "^0.95.11",
     "knex-paginate": "^3.0.0",
     "mysql": "^2.18.1",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.2.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",

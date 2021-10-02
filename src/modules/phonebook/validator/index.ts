@@ -1,14 +1,14 @@
 import { Schema } from 'joi'
-import messages from './message'
+import lang from '../../../lang'
 
-const validate = (schema: Schema, property: string) => {
+export const validate = (schema: Schema, property: string) => {
   return (req: any, res: any, next: any) => {
     const { error } = schema.validate(req[property], { abortEarly: false })
     if (error) {
       const { details } = error
       const rules: any = {}
       details.forEach(i => {
-        rules[i.context.key] = [messages(i.type, i.context.label)]
+        rules[i.context.key] = [message(i.type, i.context.label)]
       })
       res.status(422).json({ errors: rules })
     } else {
@@ -17,4 +17,8 @@ const validate = (schema: Schema, property: string) => {
   }
 }
 
-export default validate
+export const message = (type: string, label: string) => {
+  const rule = type.split('.')[1]
+
+  return lang.__(`validation.${rule}`, { attribute: label })
+}

@@ -2,7 +2,7 @@ import lang from 'i18n'
 
 lang.configure({
   locales: ['en'],
-  directory: __dirname + 'locales'
+  directory: './lang/locales'
 })
 
 export default lang
