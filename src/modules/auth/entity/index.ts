@@ -11,8 +11,15 @@ export interface User {
 }
 
 export interface Token {
-  id?: string | number,
-  user_id: string | number,
-  token?: string,
-  is_revoked: boolean,
+  id?: string | number
+  user_id: string | number
+  token?: string
+  is_revoked: boolean
+}
+
+export interface Jwt {
+  type: string
+  token: string
+  refreshToken: string
+  user: User
 }

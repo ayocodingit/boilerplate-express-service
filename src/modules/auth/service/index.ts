@@ -1,4 +1,4 @@
-import { Token, User } from '../entity'
+import { Jwt, Token, User } from '../entity'
 import { tokenRepository, userRepository, registerRepository, storeRefreshTokenRepository } from '../repository'
 import bcrypt from 'bcrypt'
 import bcryptRounds from '../../../config/bcryptRounds'
@@ -30,8 +30,6 @@ export const loginService = async (body: any) => {
   const match = await bcrypt.compare(body.password, user.password)
   if (!match) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.password.failed'))
 
-  delete user.password
-
   return await responseJwtService(user)
 }
 
@@ -45,7 +43,8 @@ export const refreshTokenService = async (body: any) => {
   return await responseJwtService(user, token.token)
 }
 
-const responseJwtService = async (user: User, tokenOld?: string) => {
+const responseJwtService = async (user: User, tokenOld?: string): Promise<Jwt> => {
+  delete user.password
   const jwt = generateTokenJwt(user)
   const token = tokenOld || await generateRefreshToken(user)
 
@@ -57,19 +56,18 @@ const responseJwtService = async (user: User, tokenOld?: string) => {
   }
 }
 
-const generateTokenJwt = (user: User) => {
-  delete user.password
+const generateTokenJwt = (user: User): string => {
   return jwt.sign(
     { uid: user.id, user },
     config.get('jwt.secret'),
     {
-      expiresIn: config.get('jwt.ttl'),
+      expiresIn: Number(config.get('jwt.ttl')),
       algorithm: 'RS256'
     }
   )
 }
 
-const generateRefreshToken = async (user: User) => {
+const generateRefreshToken = async (user: User): Promise<string> => {
   const tokens = await storeRefreshTokenRepository({
     user_id: user.id,
     is_revoked: false
