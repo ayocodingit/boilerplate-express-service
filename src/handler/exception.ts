@@ -3,7 +3,7 @@ import { CustomError } from 'ts-custom-error'
 import httpStatus from 'http-status'
 import config from '../config'
 
-export const onError = (error: any, req: any, res: any, next: any) => {
+export const onError = (error: any, req: any, res: any) => {
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
     const logger = {
       method: req.method,
@@ -32,6 +32,7 @@ export class HttpError extends CustomError {
 
 const messageError = (error: any) => {
   if (error.isObject) return JSON.parse(error.message)
-  const message = config.get('node.env') === 'production' ? httpStatus[Number(error.code)] : error.message
+  const isEnvProduction: boolean = config.get('node.env') === 'production' && error.code >= httpStatus.INTERNAL_SERVER_ERROR
+  const message = isEnvProduction ? httpStatus[Number(error.code)] : error.message
   return { error: message }
 }
