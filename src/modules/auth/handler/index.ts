@@ -1,6 +1,6 @@
 import express from 'express'
 import httpStatus from 'http-status'
-import { loginService, refreshTokenService, registerService } from '../service'
+import { loginService, logoutService, refreshTokenService, registerService } from '../service'
 import { validate } from '../../../validator'
 import { LoginSchema, RefreshTokenSchema, RegisterSchema } from '../schema'
 import jwt from '../../../middleware/jwt'
@@ -32,6 +32,14 @@ router.get('/user', jwt, async (req, res) => {
 router.post('/refresh-token', jwt, validate(RefreshTokenSchema, 'body'), async (req, res) => {
   try {
     res.json(await refreshTokenService(req.body))
+  } catch (error) {
+    res.status(error.code).json({ error: error.message })
+  }
+})
+
+router.post('/logout', jwt, validate(RefreshTokenSchema, 'body'), async (req, res) => {
+  try {
+    res.json(await logoutService(req.body))
   } catch (error) {
     res.status(error.code).json({ error: error.message })
   }

@@ -1,7 +1,6 @@
 import { Jwt, Token, User } from '../entity'
-import { tokenRepository, userRepository, registerRepository, storeRefreshTokenRepository } from '../repository'
+import { tokenRepository, userRepository, registerRepository, storeRefreshTokenRepository, passwordHashRepository, removeTokenRepository } from '../repository'
 import bcrypt from 'bcrypt'
-import bcryptRounds from '../../../config/bcryptRounds'
 import { HttpError } from '../../../handler/exception'
 import httpStatus from 'http-status'
 import lang from '../../../lang'
@@ -12,15 +11,12 @@ import { unique } from '../../../rules'
 export const registerService = async (body: any) => {
   await unique('users', 'email', body.email)
 
-  const salt = bcrypt.genSaltSync(bcryptRounds)
-  const password = bcrypt.hashSync(body.password, salt)
-
   const data: User = {
     email: body.email,
     username: body.username,
     role: body.role,
-    password: password,
-    is_active: true
+    password: passwordHashRepository(body.password),
+    is_active: false
   }
 
   return registerRepository(data)
@@ -46,7 +42,13 @@ export const refreshTokenService = async (body: any): Promise<Jwt> => {
   return await responseJwt(user, token.token)
 }
 
-const responseJwt = async (user: User, tokenOld?: string): Promise<Jwt> => {
+export const logoutService = async (body: any) => {
+  const token = await removeTokenRepository('token', body.refresh_token)
+  if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+  return { message: 'logout success' }
+}
+
+export const responseJwt = async (user: User, tokenOld?: string): Promise<Jwt> => {
   delete user.password
   const jwt = generateToken(user)
   const token = tokenOld || await generateRefreshToken(user)
@@ -59,7 +61,7 @@ const responseJwt = async (user: User, tokenOld?: string): Promise<Jwt> => {
   }
 }
 
-const generateToken = (user: User): string => {
+export const generateToken = (user: User): string => {
   return jwt.sign(
     { uid: user.id, user },
     config.get('jwt.secret'),
@@ -70,7 +72,7 @@ const generateToken = (user: User): string => {
   )
 }
 
-const generateRefreshToken = async (user: User): Promise<string> => {
+export const generateRefreshToken = async (user: User): Promise<string> => {
   const tokens = await storeRefreshTokenRepository({
     user_id: user.id,
     is_revoked: false

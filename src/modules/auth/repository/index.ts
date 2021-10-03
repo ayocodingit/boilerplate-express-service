@@ -1,6 +1,8 @@
 import database from '../../../config/database'
 import { User, Token } from '../entity'
 import { v4 as uuidv4 } from 'uuid'
+import bcrypt from 'bcrypt'
+import bcryptRounds from '../../../config/bcryptRounds'
 
 const Users = () => database<User>('users')
 const Tokens = () => database<Token>('tokens')
@@ -26,4 +28,13 @@ export const storeRefreshTokenRepository = (data: Token) => {
 
 export const tokenRepository = (key: string, value: number | string) => {
   return Tokens().where(key, value).first()
+}
+
+export const removeTokenRepository = (key: string, value: number | string) => {
+  return Tokens().where(key, value).delete()
+}
+
+export const passwordHashRepository = (password: string): string => {
+  const salt = bcrypt.genSaltSync(bcryptRounds)
+  return bcrypt.hashSync(password, salt)
 }

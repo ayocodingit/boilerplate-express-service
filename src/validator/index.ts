@@ -7,12 +7,16 @@ export const validate = (schema: Schema, property: string) => {
     const { error } = schema.validate(req[property], { abortEarly: false })
     if (error) {
       const { details } = error
-      const rules: any = {}
+      const rules: any = null
       details.forEach(i => {
         if (i.type === 'object.unknown') return
         rules[i.context.key] = [message(i.type, i.context.label)]
       })
-      res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors: rules })
+      if (rules !== null) {
+        res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors: rules })
+      } else {
+        next()
+      }
     } else {
       next()
     }
