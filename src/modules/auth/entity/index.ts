@@ -7,7 +7,6 @@ export interface User {
   avatar?: string
   oauth_code?: string
   is_active?: boolean
-  user?: User
 }
 
 export interface Token {
