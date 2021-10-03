@@ -3,7 +3,7 @@ import config from '../config'
 import * as express from 'express'
 
 export default Jwt({
-  secret: Buffer.from(config.get('jwt.public'), 'base64').toString().replace(/\\n/g, '\n'),
+  secret: config.get('jwt.public'),
   algorithms: ['RS256'],
   credentialsRequired: false,
   getToken: function fromHeaderOrQuerystring (req: express.Request) {

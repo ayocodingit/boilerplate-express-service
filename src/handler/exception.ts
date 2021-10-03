@@ -3,19 +3,21 @@ import Sentry from '../config/sentry'
 import { CustomError } from 'ts-custom-error'
 
 export const onError = (error: any, request: express.Request, response: express.Response, next: any) => {
-  if (error.code >= 500) {
+  if (error.status >= 500) {
     const logger = {
       method: request.method,
       url: request.path,
       userAgent: request.headers['user-agent'],
       date: new Date(),
-      statusCode: error.code,
+      statusCode: error.status,
       message: error.message
     }
+
     console.log(JSON.stringify(logger))
     Sentry.captureException(error)
   }
-  next(error)
+
+  return response.status(error.status).json({ error: error.message })
 }
 
 export class HttpError extends CustomError {

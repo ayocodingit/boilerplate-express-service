@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import { Schema } from 'joi'
-import lang from '../../../lang'
+import lang from '../lang'
 
 export const validate = (schema: Schema, property: string) => {
   return (req: any, res: any, next: any) => {
@@ -9,6 +9,7 @@ export const validate = (schema: Schema, property: string) => {
       const { details } = error
       const rules: any = {}
       details.forEach(i => {
+        if (i.type === 'object.unknown') return
         rules[i.context.key] = [message(i.type, i.context.label)]
       })
       res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors: rules })

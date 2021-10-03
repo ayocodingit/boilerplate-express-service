@@ -1,5 +1,5 @@
-import { message } from '../modules/phonebook/validator'
 import database from '../config/database'
+import { message } from '../validator'
 
 interface rulesInterface {
   result: boolean,
@@ -23,14 +23,14 @@ const data = (table: string, key: string, value: string, primaryKey?: string, pr
 export const unique = async (table: string, key: string, value: string, primaryKey?: string, primaryKeyValue?: string | number): Promise<rulesInterface> => {
   const item: any = await data(table, key, value, primaryKey, primaryKeyValue)
 
-  if (item) rules.result = true
-  else rules.result = false
-
-  rules.errors = {
-    errors: {
-      [key]: [message('.unique', key)]
+  if (item) {
+    rules.result = true
+    rules.errors = {
+      errors: {
+        [key]: [message('.unique', key)]
+      }
     }
-  }
+  } else rules.result = false
 
   return rules
 }
@@ -38,14 +38,14 @@ export const unique = async (table: string, key: string, value: string, primaryK
 export const exists = async (table: string, key: string, value: string): Promise<rulesInterface> => {
   const item: any = await data(table, key, value)
 
-  if (!item) rules.result = true
-  else rules.result = false
-
-  rules.errors = {
-    errors: {
-      [key]: [message('.exists', key)]
+  if (!item) {
+    rules.result = true
+    rules.errors = {
+      errors: {
+        [key]: [message('.exists', key)]
+      }
     }
-  }
+  } else rules.result = false
 
   return rules
 }
