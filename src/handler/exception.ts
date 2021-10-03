@@ -3,7 +3,7 @@ import { CustomError } from 'ts-custom-error'
 import httpStatus from 'http-status'
 import config from '../config'
 
-export const onError = (error: any, req: any, res: any) => {
+export const onError = (error: any, req: any, res: any, next: any) => {
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
     const logger = {
       method: req.method,
