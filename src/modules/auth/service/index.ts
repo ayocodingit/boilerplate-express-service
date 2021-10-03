@@ -1,4 +1,4 @@
-import { User } from '../entity'
+import { Token, User } from '../entity'
 import { tokenRepository, userRepository, registerRepository, storeRefreshTokenRepository } from '../repository'
 import bcrypt from 'bcrypt'
 import bcryptRounds from '../../../config/bcryptRounds'
@@ -35,9 +35,19 @@ export const loginService = async (body: any) => {
   return await responseJwtService(user)
 }
 
-export const responseJwtService = async (user: User, tokenOld?: string) => {
+export const refreshTokenService = async (body: any) => {
+  const token: Token = await tokenRepository('token', body.refresh_token)
+  if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+
+  const user: User = await userRepository('id', token.user_id)
+  if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+
+  return await responseJwtService(user, token.token)
+}
+
+const responseJwtService = async (user: User, tokenOld?: string) => {
   const jwt = generateTokenJwt(user)
-  const token = tokenOld || await refreshToken(user)
+  const token = tokenOld || await generateRefreshToken(user)
 
   return {
     type: 'bearer',
@@ -45,14 +55,6 @@ export const responseJwtService = async (user: User, tokenOld?: string) => {
     refreshToken: token,
     user: user
   }
-}
-
-export const tokenService = (body: any) => {
-  return tokenRepository('token', body.refresh_token)
-}
-
-export const userService = (id: number | string) => {
-  return userRepository('id', id)
 }
 
 const generateTokenJwt = (user: User) => {
@@ -67,7 +69,7 @@ const generateTokenJwt = (user: User) => {
   )
 }
 
-const refreshToken = async (user: User) => {
+const generateRefreshToken = async (user: User) => {
   const tokens = await storeRefreshTokenRepository({
     user_id: user.id,
     is_revoked: false

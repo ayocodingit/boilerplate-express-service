@@ -1,13 +1,10 @@
 import express from 'express'
 import httpStatus from 'http-status'
-import { loginService, registerService, responseJwtService, tokenService, userService } from '../service'
+import { loginService, refreshTokenService, registerService } from '../service'
 import { validate } from '../../../validator'
 import { unique } from '../../../rules'
 import { LoginSchema, RefreshTokenSchema, RegisterSchema } from '../schema'
 import jwt from '../../../middleware/jwt'
-import { Token, User } from '../entity'
-import { HttpError } from '../../../handler/exception'
-import lang from '../../../lang'
 
 const router = express.Router()
 
@@ -34,11 +31,7 @@ router.get('/user', jwt, async (req, res) => {
 
 router.post('/refresh-token', jwt, validate(RefreshTokenSchema, 'body'), async (req, res) => {
   try {
-    const token: Token = await tokenService(req.body)
-    if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
-    const user: User = await userService(token.user_id)
-    if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
-    res.json(await responseJwtService(user, token.token))
+    res.json(await refreshTokenService(req.body))
   } catch (error) {
     res.status(error.code).json({ error: error.message })
   }
