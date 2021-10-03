@@ -1,23 +1,22 @@
-import * as express from 'express'
 import Sentry from '../config/sentry'
 import { CustomError } from 'ts-custom-error'
+import httpStatus from 'http-status'
 
-export const onError = (error: any, request: express.Request, response: express.Response, next: any) => {
-  if (error.status >= 500) {
+export const onError = (error: any, req: any, res: any, next: any) => {
+  if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
     const logger = {
-      method: request.method,
-      url: request.path,
-      userAgent: request.headers['user-agent'],
+      method: req.method,
+      url: req.path,
+      userAgent: req.headers['user-agent'],
       date: new Date(),
-      statusCode: error.status,
+      statusCode: error.code,
       message: error.message
     }
 
     console.log(JSON.stringify(logger))
     Sentry.captureException(error)
   }
-
-  return response.status(error.status).json({ error: error.message })
+  return res.status(error.code).json(catchMessageError(error))
 }
 
 export class HttpError extends CustomError {
@@ -28,4 +27,9 @@ export class HttpError extends CustomError {
   ) {
     super(message)
   }
+}
+
+const catchMessageError = (error: any) => {
+  if (error.isObject) return JSON.parse(error.message)
+  return { error: error.message }
 }

@@ -7,20 +7,20 @@ import jwt from '../../../middleware/jwt'
 
 const router = express.Router()
 
-router.post('/register', validate(RegisterSchema, 'body'), async (req, res) => {
+router.post('/register', validate(RegisterSchema, 'body'), async (req, res, next) => {
   try {
     await registerService(req.body)
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   } catch (error) {
-    res.status(error.code).json({ error: error.isObject ? JSON.parse(error.message) : error.message })
+    next(error)
   }
 })
 
-router.post('/login', validate(LoginSchema, 'body'), async (req, res) => {
+router.post('/login', validate(LoginSchema, 'body'), async (req, res, next) => {
   try {
     res.json(await loginService(req.body))
   } catch (error) {
-    res.status(error.code).json({ error: error.message })
+    next(error)
   }
 })
 
@@ -29,19 +29,19 @@ router.get('/user', jwt, async (req, res) => {
   res.json(users.user)
 })
 
-router.post('/refresh-token', jwt, validate(RefreshTokenSchema, 'body'), async (req, res) => {
+router.post('/refresh-token', jwt, validate(RefreshTokenSchema, 'body'), async (req, res, next) => {
   try {
     res.json(await refreshTokenService(req.body))
   } catch (error) {
-    res.status(error.code).json({ error: error.message })
+    next(error)
   }
 })
 
-router.post('/logout', jwt, validate(RefreshTokenSchema, 'body'), async (req, res) => {
+router.post('/logout', jwt, validate(RefreshTokenSchema, 'body'), async (req, res, next) => {
   try {
     res.json(await logoutService(req.body))
   } catch (error) {
-    res.status(error.code).json({ error: error.message })
+    next(error)
   }
 })
 

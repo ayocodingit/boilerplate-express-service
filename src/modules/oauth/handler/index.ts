@@ -6,19 +6,19 @@ import { LoginGoogleSchema, SignUpGoogleSchema } from '../schema'
 
 const router = express.Router()
 
-router.post('/signup-with-google', validate(SignUpGoogleSchema, 'body'), async (req, res) => {
+router.post('/signup-with-google', validate(SignUpGoogleSchema, 'body'), async (req, res, next) => {
   try {
     res.status(httpStatus.CREATED).json(await signUpService(req.body))
   } catch (error) {
-    res.status(error.code).json({ error: error.isObject ? JSON.parse(error.message) : error.message })
+    next(error)
   }
 })
 
-router.post('/login-with-google', validate(LoginGoogleSchema, 'body'), async (req, res) => {
+router.post('/login-with-google', validate(LoginGoogleSchema, 'body'), async (req, res, next) => {
   try {
     res.json(await signInService(req.body))
   } catch (error) {
-    res.status(error.code).json({ error: error.message })
+    next(error)
   }
 })
 

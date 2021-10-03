@@ -1,25 +1,32 @@
 import httpStatus from 'http-status'
-import { Schema } from 'joi'
+import Joi, { Schema } from 'joi'
 import lang from '../lang'
 
 export const validate = (schema: Schema, property: string) => {
   return (req: any, res: any, next: any) => {
     const { error } = schema.validate(req[property], { abortEarly: false })
-    if (error) {
-      const { details } = error
-      const rules: any = null
-      details.forEach(i => {
-        if (i.type === 'object.unknown') return
-        rules[i.context.key] = [message(i.type, i.context.label)]
-      })
-      if (rules !== null) {
-        res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors: rules })
-      } else {
-        next()
-      }
-    } else {
-      next()
-    }
+
+    if (!error) return next()
+
+    const { details } = error
+    const errors = validateError(details)
+
+    errors.isError ? res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ errors: errors.rules }) : next()
+  }
+}
+
+const validateError = (details: Joi.ValidationErrorItem[]) => {
+  const isError: boolean = false
+  const rules: any = {}
+
+  for (const i of details) {
+    if (i.type === 'object.unknown') continue
+    rules[i.context.key] = [message(i.type, i.context.label)]
+  }
+
+  return {
+    isError,
+    rules
   }
 }
 
