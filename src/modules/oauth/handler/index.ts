@@ -10,8 +10,6 @@ router.post('/signup-with-google', validate(SignUpGoogleSchema, 'body'), async (
   try {
     res.status(httpStatus.CREATED).json(await signUpService(req.body))
   } catch (error) {
-    console.log(error.message);
-
     res.status(error.code).json({ error: error.isObject ? JSON.parse(error.message) : error.message })
   }
 })
