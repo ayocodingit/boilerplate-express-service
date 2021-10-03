@@ -9,7 +9,7 @@ ENV NODE_ENV production
 
 COPY src/package.json ./
 
-RUN yarn install
+RUN yarn install && yarn global add knex
 
 COPY src .
 
