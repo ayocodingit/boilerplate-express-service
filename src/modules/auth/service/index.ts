@@ -7,8 +7,11 @@ import httpStatus from 'http-status'
 import lang from '../../../lang'
 import jwt from 'jsonwebtoken'
 import config from '../../../config'
+import { unique } from '../../../rules'
 
-export const registerService = (body: any) => {
+export const registerService = async (body: any) => {
+  await unique('users', 'email', body.email)
+
   const salt = bcrypt.genSaltSync(bcryptRounds)
   const password = bcrypt.hashSync(body.password, salt)
 
@@ -23,29 +26,29 @@ export const registerService = (body: any) => {
   return registerRepository(data)
 }
 
-export const loginService = async (body: any) => {
+export const loginService = async (body: any) : Promise<Jwt> => {
   const user: User = await userRepository('email', body.email)
   if (!user) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.user.failed'))
 
   const match = await bcrypt.compare(body.password, user.password)
   if (!match) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.password.failed'))
 
-  return await responseJwtService(user)
+  return await responseJwt(user)
 }
 
-export const refreshTokenService = async (body: any) => {
+export const refreshTokenService = async (body: any): Promise<Jwt> => {
   const token: Token = await tokenRepository('token', body.refresh_token)
   if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
   const user: User = await userRepository('id', token.user_id)
   if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
-  return await responseJwtService(user, token.token)
+  return await responseJwt(user, token.token)
 }
 
-const responseJwtService = async (user: User, tokenOld?: string): Promise<Jwt> => {
+const responseJwt = async (user: User, tokenOld?: string): Promise<Jwt> => {
   delete user.password
-  const jwt = generateTokenJwt(user)
+  const jwt = generateToken(user)
   const token = tokenOld || await generateRefreshToken(user)
 
   return {
@@ -56,7 +59,7 @@ const responseJwtService = async (user: User, tokenOld?: string): Promise<Jwt> =
   }
 }
 
-const generateTokenJwt = (user: User): string => {
+const generateToken = (user: User): string => {
   return jwt.sign(
     { uid: user.id, user },
     config.get('jwt.secret'),

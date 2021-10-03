@@ -1,4 +1,6 @@
+import httpStatus from 'http-status'
 import database from '../config/database'
+import { HttpError } from '../handler/exception'
 import { message } from '../validator'
 
 interface rulesInterface {
@@ -30,6 +32,7 @@ export const unique = async (table: string, key: string, value: string, primaryK
         [key]: [message('.unique', key)]
       }
     }
+    throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(rules.errors), true)
   } else rules.result = false
 
   return rules
@@ -45,6 +48,7 @@ export const exists = async (table: string, key: string, value: string): Promise
         [key]: [message('.exists', key)]
       }
     }
+    throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(rules.errors), true)
   } else rules.result = false
 
   return rules

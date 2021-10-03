@@ -23,7 +23,8 @@ export const onError = (error: any, request: express.Request, response: express.
 export class HttpError extends CustomError {
   public constructor (
       public code: number,
-      message?: string
+      message?: string,
+      public isObject: boolean = false
   ) {
     super(message)
   }
