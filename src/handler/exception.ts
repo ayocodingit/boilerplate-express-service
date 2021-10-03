@@ -17,6 +17,8 @@ export const onError = (error: any, req: any, res: any, next: any) => {
     console.log(JSON.stringify(logger))
     Sentry.captureException(error)
   }
+
+  error.code = error.code === 'credentials_required' ? error.status : error.code
   return res.status(error.code).json(messageError(error))
 }
 

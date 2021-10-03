@@ -5,7 +5,7 @@ import * as express from 'express'
 export default Jwt({
   secret: config.get('jwt.public'),
   algorithms: ['RS256'],
-  credentialsRequired: false,
+  credentialsRequired: true,
   getToken: function fromHeaderOrQuerystring (req: express.Request) {
     if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
       return req.headers.authorization.split(' ')[1]
