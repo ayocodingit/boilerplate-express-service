@@ -1,6 +1,7 @@
 import Sentry from '../config/sentry'
 import { CustomError } from 'ts-custom-error'
 import httpStatus from 'http-status'
+import config from '../config'
 
 export const onError = (error: any, req: any, res: any, next: any) => {
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
@@ -16,7 +17,7 @@ export const onError = (error: any, req: any, res: any, next: any) => {
     console.log(JSON.stringify(logger))
     Sentry.captureException(error)
   }
-  return res.status(error.code).json(catchMessageError(error))
+  return res.status(error.code).json(messageError(error))
 }
 
 export class HttpError extends CustomError {
@@ -29,7 +30,8 @@ export class HttpError extends CustomError {
   }
 }
 
-const catchMessageError = (error: any) => {
+const messageError = (error: any) => {
   if (error.isObject) return JSON.parse(error.message)
-  return { error: error.message }
+  const message = config.get('node.env') === 'production' ? httpStatus[Number(error.code)] : error.message
+  return { error: message }
 }

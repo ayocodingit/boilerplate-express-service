@@ -3,8 +3,6 @@ services:
   express-mysql:
     image: mysql
     container_name: "${APP_NAME}_MYSQL"
-    ports:
-      - "${DB_PORT}:3306"
     volumes:
       - $PWD/mysql:/var/lib/mysql
     restart: 'always'
@@ -29,8 +27,10 @@ services:
   express-app:
     build:
       context: .
-      dockerfile: docker-config/Dockerfile
+      dockerfile: docker/Dockerfile.dev
     restart: always
+    volumes:
+      - ./src:/app
     container_name: "${APP_NAME}_APP"
     image: boilerplate-express-service
     env_file:
@@ -41,7 +41,7 @@ services:
     ports:
       - "${PORT}:${PORT}"
     depends_on:
-      - adonis-mysql
+      - express-mysql
       - express-redis
     networks:
       - express-network
