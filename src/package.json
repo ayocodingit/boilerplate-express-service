@@ -19,6 +19,7 @@
     "knex": "^0.95.11",
     "knex-paginate": "^3.0.0",
     "mysql": "^2.18.1",
+    "nodemailer": "^6.6.5",
     "ts-custom-error": "^3.2.0",
     "ts-node": "^10.2.1",
     "uuid": "^8.3.2"
@@ -30,6 +31,7 @@
     "@types/i18n": "^0.13.1",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/node": "^16.10.1",
+    "@types/nodemailer": "^6.4.4",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^4.32.0",
     "@typescript-eslint/parser": "^4.32.0",
