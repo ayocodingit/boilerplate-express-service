@@ -40,9 +40,9 @@ jobs:
       run: cp .env.test .env
 
     - run: Set Jwt Secret
-        env:
-          JWT_PUBLIC: ${{ secrets.JWT_PUBLIC }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      env:
+        JWT_PUBLIC: ${{ secrets.JWT_PUBLIC }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     - name: Run Testing
       run: npm run test:unit
