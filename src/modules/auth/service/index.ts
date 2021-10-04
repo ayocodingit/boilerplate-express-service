@@ -37,8 +37,6 @@ export const refreshTokenService = async (body: any): Promise<Jwt> => {
   if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
   const user: User = await userRepository('id', token.user_id)
-  if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
-
   return await responseJwt(user, token.token)
 }
 

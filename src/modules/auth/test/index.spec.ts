@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import database from '../../../config/database'
 import { loginService, registerService, logoutService, refreshTokenService } from '../service'
 
 let auth: any = {}
@@ -59,11 +58,10 @@ describe('auth', () => {
 })
 
 describe('auth', () => {
-  it('error refresh token user not found test', async () => {
+  it('error refresh token test', async () => {
     try {
-      database('users').where('email', 'test@gmail.com').delete()
       await refreshTokenService({
-        refresh_token: auth.refreshToken
+        refresh_token: 1234
       })
     } catch (error) {
       expect(error)
@@ -72,10 +70,10 @@ describe('auth', () => {
 })
 
 describe('auth', () => {
-  it('error refresh token test', async () => {
+  it('error refresh token user not found test', async () => {
     try {
       await refreshTokenService({
-        refresh_token: 1234
+        refresh_token: auth.refreshToken
       })
     } catch (error) {
       expect(error)
