@@ -40,9 +40,6 @@ export default {
     connection: {
       filename: './local.sqlite'
     },
-    migrations: {
-      tableName: 'migrations'
-    },
     useNullAsDefault: true
   }
 }
