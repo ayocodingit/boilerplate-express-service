@@ -94,15 +94,3 @@ describe('auth', () => {
     }
   })
 })
-
-describe('auth', () => {
-  it('error refresh token user not found test', async () => {
-    try {
-      await refreshTokenService({
-        refresh_token: auth.refreshToken
-      })
-    } catch (error) {
-      expect(error)
-    }
-  })
-})

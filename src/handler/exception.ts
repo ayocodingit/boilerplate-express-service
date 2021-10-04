@@ -4,6 +4,8 @@ import httpStatus from 'http-status'
 import config from '../config'
 
 export const onError = (error: any, req: any, res: any, next: any) => {
+  error.code = typeof error.code === 'string' ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
+
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
     const logger = {
       method: req.method,
@@ -13,12 +15,10 @@ export const onError = (error: any, req: any, res: any, next: any) => {
       statusCode: error.code,
       message: error.message
     }
-
     console.log(JSON.stringify(logger))
     Sentry.captureException(error)
   }
 
-  error.code = typeof error.code === 'string' ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
   return res.status(error.code).json(messageError(error))
 }
 
