@@ -28,6 +28,32 @@ describe('auth', () => {
 })
 
 describe('auth', () => {
+  it('error login failed email test', async () => {
+    try {
+      await loginService({
+        email: 'test2@gmail.com',
+        password: 'admin'
+      })
+    } catch (error) {
+      expect(error)
+    }
+  })
+})
+
+describe('auth', () => {
+  it('error login failed password test', async () => {
+    try {
+      await loginService({
+        email: 'test@gmail.com',
+        password: 'admin123'
+      })
+    } catch (error) {
+      expect(error)
+    }
+  })
+})
+
+describe('auth', () => {
   it('refresh token test', async () => {
     const response = await refreshTokenService({
       refresh_token: auth.refreshToken
