@@ -28,13 +28,10 @@ jobs:
     - name: Copy Env Testing
       run: cp .env.test .env
 
-    - run: Set Jwt Public
-      env:
-        JWT_PUBLIC: ${{ secrets.JWT_PUBLIC }}
-        
-    - run: Set Jwt Secret
-      env:
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+    - name: Set Jwt
+      run: |
+        echo JWT_PUBLIC =${{ secrets.JWT_PUBLIC }} >> .env
+        echo JWT_SECRET =${{ secrets.JWT_SECRET }} >> .env
 
     - name: Set up Node  
       uses: actions/setup-node@master
