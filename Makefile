@@ -32,10 +32,8 @@ up:
 down:
 	${APP_PATH}; knex migrate:down
 
-
-
 docker-run:
-	docker-compose ${DOCKER_ENV_PATH} up -d --build
+	docker-compose ${DOCKER_ENV_PATH} up -d
 
 docker-stop:
 	docker-compose ${DOCKER_ENV_PATH} down
@@ -44,7 +42,7 @@ docker-run-dev-build:
 	docker build -f ${DOCKER_FILE_PATH} -t ${APP_NAME} .
 
 docker-run-dev:
-	docker-compose ${DOCKER_DEV} up -d --build
+	docker-compose ${DOCKER_DEV} up -d
 
 docker-run-dev-stop:
 	docker-compose ${DOCKER_DEV} down

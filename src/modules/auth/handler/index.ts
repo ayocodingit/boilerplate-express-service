@@ -1,7 +1,7 @@
 import express from 'express'
 import httpStatus from 'http-status'
 import { loginService, logoutService, refreshTokenService, registerService } from '../service'
-import { validate } from '../../../validator'
+import { validate } from '../../../helpers/validator'
 import { LoginSchema, RefreshTokenSchema, RegisterSchema } from '../schema'
 import jwt from '../../../middleware/jwt'
 

@@ -5,7 +5,6 @@ services:
     container_name: "${APP_NAME}_MYSQL"
     volumes:
       - $PWD/mysql:/var/lib/mysql
-    restart: 'always'
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -14,11 +13,18 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     networks:
       - express-network
+  
+  express-adminer:
+    image: adminer
+    container_name: "${APP_NAME}_ADMINER"
+    ports: 
+      - '8081:8080'
+    networks: 
+      - express-network
 
   express-redis:
     image: "redis:alpine"
     container_name: "${APP_NAME}_REDIS"
-    restart: always
     networks:
       - express-network
     volumes:
@@ -28,7 +34,6 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.dev
-    restart: always
     volumes:
       - ./src:/app
     container_name: "${APP_NAME}_APP"

@@ -1,7 +1,7 @@
 import express from 'express'
 import httpStatus from 'http-status'
 import { signInService, signUpService } from '../service'
-import { validate } from '../../../validator'
+import { validate } from '../../../helpers/validator'
 import { LoginGoogleSchema, SignUpGoogleSchema } from '../schema'
 
 const router = express.Router()

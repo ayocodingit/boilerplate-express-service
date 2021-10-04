@@ -6,7 +6,7 @@ import httpStatus from 'http-status'
 import lang from '../../../lang'
 import jwt from 'jsonwebtoken'
 import config from '../../../config'
-import { unique } from '../../../rules'
+import { unique } from '../../../helpers/rules'
 
 export const registerService = async (body: any) => {
   await unique('users', 'email', body.email)

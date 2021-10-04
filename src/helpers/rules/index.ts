@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
-import database from '../config/database'
-import { HttpError } from '../handler/exception'
+import database from '../../config/database'
+import { HttpError } from '../../handler/exception'
 import { message } from '../validator'
 
 interface rulesInterface {
