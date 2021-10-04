@@ -37,7 +37,7 @@ jobs:
       run: npm install -g knex
 
     - name: Copy Env Testing
-      run: cp .env.testing .env
+      run: cp .env.test .env
 
     - name: Run Testing
       run: npm run test:unit
