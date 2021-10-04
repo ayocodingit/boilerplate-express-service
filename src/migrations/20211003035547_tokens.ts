@@ -1,6 +1,6 @@
 import { Knex } from 'knex'
 
-export const up = (knex: Knex): Promise<any> => {
+export const up = (knex: Knex): Knex.SchemaBuilder => {
   return knex.schema.createTable('tokens', function (table) {
     table.increments()
     table.integer('user_id')
@@ -10,6 +10,6 @@ export const up = (knex: Knex): Promise<any> => {
   })
 }
 
-export const down = (knex: Knex): Promise<any> => {
-  return knex.schema.dropTable('tokens')
+export const down = (knex: Knex): Knex.SchemaBuilder  => {
+  return knex.schema.dropTableIfExists('tokens')
 }

@@ -1,6 +1,6 @@
 import { Knex } from 'knex'
 
-export const up = async (knex: Knex): Promise<any> => {
+export const up = (knex: Knex): Knex.SchemaBuilder => {
   return knex.schema.createTable('users', function (table) {
     table.increments()
     table.string('email').notNullable()
@@ -14,6 +14,6 @@ export const up = async (knex: Knex): Promise<any> => {
   })
 }
 
-export const down = (knex: Knex): Promise<any> => {
-  return knex.schema.dropTable('users')
+export const down = (knex: Knex): Knex.SchemaBuilder => {
+  return knex.schema.dropTableIfExists('users')
 }
