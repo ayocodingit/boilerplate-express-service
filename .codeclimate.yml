@@ -3,5 +3,4 @@ checks:
   duplication:
     enabled: false
     config:
-      languages:
-      - typescript
+      threshold:
