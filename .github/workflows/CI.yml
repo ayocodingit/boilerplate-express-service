@@ -25,11 +25,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up Node  
-      uses: actions/setup-node@master
-      with:
-        node-version: '14'
-    
     - name: Copy Env Testing
       run: cp .env.test .env
 
@@ -40,6 +35,11 @@ jobs:
     - run: Set Jwt Secret
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+    - name: Set up Node  
+      uses: actions/setup-node@master
+      with:
+        node-version: '14'
 
     - name: Run Npm Install    
       run: npm install
