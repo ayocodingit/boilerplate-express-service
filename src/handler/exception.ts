@@ -18,7 +18,7 @@ export const onError = (error: any, req: any, res: any, next: any) => {
     Sentry.captureException(error)
   }
 
-  error.code = error.code === 'credentials_required' ? error.status : error.code
+  error.code = typeof error.code === 'string' ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
   return res.status(error.code).json(messageError(error))
 }
 
