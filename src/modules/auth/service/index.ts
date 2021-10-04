@@ -6,10 +6,10 @@ import httpStatus from 'http-status'
 import lang from '../../../lang'
 import jwt from 'jsonwebtoken'
 import config from '../../../config'
-import { unique } from '../../../helpers/rules'
+import { checkError, uniqueRule } from '../../../helpers/rules'
 
 export const registerService = async (body: any) => {
-  await unique('users', 'email', body.email)
+  checkError(await uniqueRule('users', 'email', body.email))
 
   const data: User = {
     email: body.email,

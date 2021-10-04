@@ -33,7 +33,7 @@ export class HttpError extends CustomError {
 }
 
 const messageError = (error: any) => {
-  if (error.isObject) return JSON.parse(error.message)
+  if (error.isObject) return { errors: JSON.parse(error.message) }
   const isEnvProduction: boolean = config.get('node.env') === 'production' && error.code >= httpStatus.INTERNAL_SERVER_ERROR
   const message = isEnvProduction ? httpStatus[Number(error.code)] : error.message
   return { error: message }

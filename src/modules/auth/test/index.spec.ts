@@ -17,6 +17,22 @@ describe('auth', () => {
 })
 
 describe('auth', () => {
+  it('error register email duplicate test', async () => {
+    try {
+      await registerService({
+        email: 'test@gmail.com',
+        username: 'test',
+        role: 'admin',
+        password: 'admin',
+        is_active: false
+      })
+    } catch (error) {
+      expect(error)
+    }
+  })
+})
+
+describe('auth', () => {
   it('login test', async () => {
     const response = await loginService({
       email: 'test@gmail.com',
