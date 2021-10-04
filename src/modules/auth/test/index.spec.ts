@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { registerService } from '../service'
 
 describe('auth', () => {
