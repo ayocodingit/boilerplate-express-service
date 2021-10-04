@@ -2,7 +2,7 @@ import config from 'env-dot-prop'
 import dotEnv from 'dotenv'
 dotEnv.config()
 
-const decodeBase64 = (key: string) => {
+const decodeBase64 = (key: string = '') => {
   return Buffer.from(key, 'base64').toString().replace(/\\n/g, '\n')
 }
 
