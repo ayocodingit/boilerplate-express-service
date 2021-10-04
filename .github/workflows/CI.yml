@@ -33,9 +33,6 @@ jobs:
     - name: Run Npm Install    
       run: npm install
 
-    - name: Create Database 
-      run: touch testing.sqlite
-
     - name: Run Testing
       run: npm run test
 
@@ -47,5 +44,5 @@ jobs:
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}
       with:
-        workingDirectory: src
-        coverageLocations: coverage/lcov.info:lcov
+        workingDirectory: src/coverage
+        coverageLocations: lcov.info:lcov
