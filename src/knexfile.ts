@@ -36,20 +36,13 @@ export default {
     }
   },
   test: {
-    client: config.get('db.connection'),
+    client: 'sqlite',
     connection: {
-      host: config.get('db.host'),
-      port: config.get('db.port'),
-      user: config.get('db.user'),
-      password: config.get('db.password'),
-      database: config.get('db.database')
-    },
-    pool: {
-      min: Number(config.get('db.pool.min', 10)),
-      max: Number(config.get('db.pool.max', 100))
+      filename: './local.sqlite'
     },
     migrations: {
       tableName: 'migrations'
-    }
+    },
+    useNullAsDefault: true
   }
 }

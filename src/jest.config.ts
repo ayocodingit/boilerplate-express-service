@@ -2,6 +2,7 @@ import type { Config } from '@jest/types';
 
 export default async (): Promise<Config.InitialOptions> => {
   return {
+    forceExit: true,
     bail: 1,
     verbose: true,
     clearMocks: true,
@@ -15,7 +16,6 @@ export default async (): Promise<Config.InitialOptions> => {
         diagnostics: false
       }
     },
-    globalSetup: './config/global-setup.ts',
     collectCoverage: true,
     collectCoverageFrom: [
       './modules/**/*.ts',
