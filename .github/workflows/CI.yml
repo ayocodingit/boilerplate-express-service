@@ -30,12 +30,6 @@ jobs:
       with:
         node-version: '14'
     
-    - name: Run Npm Install    
-      run: npm install
-
-    - name: Run Npm knex    
-      run: npm install -g knex
-
     - name: Copy Env Testing
       run: cp .env.test .env
 
@@ -46,6 +40,12 @@ jobs:
     - run: Set Jwt Secret
       env:
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
+    - name: Run Npm Install    
+      run: npm install
+
+    - name: Run Npm knex    
+      run: npm install -g knex
 
     - name: Run Testing
       run: npm run test:unit
