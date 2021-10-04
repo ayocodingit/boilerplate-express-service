@@ -56,7 +56,7 @@
     "dev": "nodemon server.ts",
     "build": "tsc --project ./",
     "lint": "eslint --fix --ext .ts .",
-    "test:unit": "ENV_FILE=.env.test jest --detectOpenHandles --verbose --runInBand --forceExit"
+    "test:unit": "ENV_FILE=.env.test jest"
   },
   "author": "ayocodingit",
   "license": "MIT"
