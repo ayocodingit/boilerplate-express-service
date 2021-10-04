@@ -33,6 +33,9 @@ jobs:
     - name: Run Npm Install    
       run: npm install
 
+    - name: Run Npm knex    
+      run: npm install -g knex
+
     - name: Run Testing
       run: npm run test:unit
 
