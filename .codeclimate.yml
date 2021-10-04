@@ -4,3 +4,7 @@ checks:
     enabled: false
     config:
       threshold: #language-specific defaults. overrides affect all languages.
+  similar-code:
+    enabled: false
+    config:
+      threshold: #language-specific defaults. overrides affect all languages.
