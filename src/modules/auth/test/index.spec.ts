@@ -62,7 +62,7 @@ describe('auth', () => {
   it('error refresh token user not found test', async () => {
     try {
       database('users').where('email', 'test@gmail.com').delete()
-      await logoutService({
+      await refreshTokenService({
         refresh_token: auth.refreshToken
       })
     } catch (error) {
@@ -74,7 +74,7 @@ describe('auth', () => {
 describe('auth', () => {
   it('error refresh token test', async () => {
     try {
-      await logoutService({
+      await refreshTokenService({
         refresh_token: 1234
       })
     } catch (error) {
