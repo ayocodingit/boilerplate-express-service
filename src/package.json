@@ -16,6 +16,7 @@
     "google-auth-library": "^7.10.0",
     "http-status": "^1.5.0",
     "i18n": "^0.13.3",
+    "jest-extended": "^0.11.5",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.11",
@@ -32,6 +33,7 @@
     "@types/express": "^4.17.13",
     "@types/express-jwt": "^6.0.2",
     "@types/i18n": "^0.13.1",
+    "@types/jest": "^27.0.2",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/node": "^16.10.1",
     "@types/nodemailer": "^6.4.4",
@@ -43,15 +45,18 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
+    "jest": "^27.2.4",
     "nodemon": "^2.0.12",
     "sqlite3": "^5.0.2",
+    "ts-jest": "^27.0.5",
     "typescript": "^4.4.3"
   },
   "scripts": {
     "start": "node server.ts",
     "dev": "nodemon server.ts",
     "build": "tsc --project ./",
-    "lint": "eslint --fix --ext .ts ."
+    "lint": "eslint --fix --ext .ts .",
+    "test:unit": "ENV_FILE=.env.test jest --detectOpenHandles --verbose --runInBand --forceExit"
   },
   "author": "ayocodingit",
   "license": "MIT"
