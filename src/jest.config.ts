@@ -20,6 +20,7 @@ export default async (): Promise<Config.InitialOptions> => {
     collectCoverageFrom: [
       './modules/**/*.ts',
       '!./modules/**/handler/*.ts',
+      '!./modules/**/schema/*.ts',
       '!./modules/email/**/*.ts',
       '!./modules/oauth/**/*.ts',
       '!**/node_modules/**'
