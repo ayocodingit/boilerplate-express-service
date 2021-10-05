@@ -1,2 +1,7 @@
 mysql
 redis
+src/node_modules
+src/package-lock.json
+src/build
+src/*.sqlite
+src/coverage
