@@ -2,7 +2,7 @@ import { SignUpGoogle } from '../entity'
 import { getUserOauth } from '../repository'
 import { HttpError } from '../../../handler/exception'
 import httpStatus from 'http-status'
-import { exists, unique } from '../../../helpers/rules'
+import { checkError, existsRule, uniqueRule } from '../../../helpers/rules'
 import { responseJwt } from '../../auth/service'
 import { OAuth2Client } from 'google-auth-library'
 import config from '../../../config'
@@ -17,7 +17,7 @@ export const signInService = async (body: any) : Promise<Jwt> => {
     codeVerifier: body.code_verifier
   })
 
-  await exists('users', 'email', payload.email)
+  checkError(await existsRule('users', 'email', payload.email))
 
   const user = await getUserOauth({
     sub: payload.sub,
@@ -34,7 +34,7 @@ export const signUpService = async (body: any) => {
     codeVerifier: body.code_verifier
   })
 
-  await unique('users', 'email', payload.email)
+  checkError(await uniqueRule('users', 'email', payload.email))
 
   const data: User = {
     email: payload.email,
