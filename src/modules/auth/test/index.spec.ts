@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
-import { loginService, registerService, logoutService, refreshTokenService } from '../service'
+import { Auth as Service } from '../service'
 
 let auth: any = {}
 
 describe('auth', () => {
   it('register test', async () => {
-    const response = await registerService({
+    const response = await Service.register({
       email: 'test@gmail.com',
       username: 'test',
       role: 'admin',
@@ -19,7 +19,7 @@ describe('auth', () => {
 describe('auth', () => {
   it('error register email duplicate test', async () => {
     try {
-      await registerService({
+      await Service.register({
         email: 'test@gmail.com',
         username: 'test',
         role: 'admin',
@@ -34,7 +34,7 @@ describe('auth', () => {
 
 describe('auth', () => {
   it('login test', async () => {
-    const response = await loginService({
+    const response = await Service.login({
       email: 'test@gmail.com',
       password: 'admin'
     })
@@ -46,7 +46,7 @@ describe('auth', () => {
 describe('auth', () => {
   it('error login failed email test', async () => {
     try {
-      await loginService({
+      await Service.login({
         email: 'test2@gmail.com',
         password: 'admin'
       })
@@ -59,7 +59,7 @@ describe('auth', () => {
 describe('auth', () => {
   it('error login failed password test', async () => {
     try {
-      await loginService({
+      await Service.login({
         email: 'test@gmail.com',
         password: 'admin123'
       })
@@ -71,7 +71,7 @@ describe('auth', () => {
 
 describe('auth', () => {
   it('refresh token test', async () => {
-    const response = await refreshTokenService({
+    const response = await Service.refreshToken({
       refresh_token: auth.refreshToken
     })
     expect(response)
@@ -80,7 +80,7 @@ describe('auth', () => {
 
 describe('auth', () => {
   it('logout test', async () => {
-    const response = await logoutService({
+    const response = await Service.logout({
       refresh_token: auth.refreshToken
     })
     expect(response)
@@ -90,7 +90,7 @@ describe('auth', () => {
 describe('auth', () => {
   it('error logout test', async () => {
     try {
-      await logoutService({
+      await Service.logout({
         refresh_token: '1234'
       })
     } catch (error) {
@@ -102,7 +102,7 @@ describe('auth', () => {
 describe('auth', () => {
   it('error refresh token test', async () => {
     try {
-      await refreshTokenService({
+      await Service.refreshToken({
         refresh_token: 1234
       })
     } catch (error) {

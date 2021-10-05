@@ -1,24 +1,24 @@
 import express from 'express'
 import httpStatus from 'http-status'
-import { loginService, logoutService, refreshTokenService, registerService } from '../service'
+import { Auth as Service } from '../service'
 import { validate } from '../../../helpers/validator'
-import { LoginSchema, RefreshTokenSchema, RegisterSchema } from '../schema'
+import { Auth as Schema } from '../schema'
 import jwt from '../../../middleware/jwt'
 
 const router = express.Router()
 
-router.post('/register', validate(RegisterSchema, 'body'), async (req, res, next) => {
+router.post('/register', validate(Schema.Register, 'body'), async (req, res, next) => {
   try {
-    await registerService(req.body)
+    await Service.register(req.body)
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   } catch (error) {
     next(error)
   }
 })
 
-router.post('/login', validate(LoginSchema, 'body'), async (req, res, next) => {
+router.post('/login', validate(Schema.Login, 'body'), async (req, res, next) => {
   try {
-    res.json(await loginService(req.body))
+    res.json(await Service.login(req.body))
   } catch (error) {
     next(error)
   }
@@ -29,17 +29,17 @@ router.get('/user', jwt, async (req, res) => {
   res.json(users.user)
 })
 
-router.post('/refresh-token', jwt, validate(RefreshTokenSchema, 'body'), async (req, res, next) => {
+router.post('/refresh-token', jwt, validate(Schema.RefreshToken, 'body'), async (req, res, next) => {
   try {
-    res.json(await refreshTokenService(req.body))
+    res.json(await Service.refreshToken(req.body))
   } catch (error) {
     next(error)
   }
 })
 
-router.post('/logout', jwt, validate(RefreshTokenSchema, 'body'), async (req, res, next) => {
+router.post('/logout', jwt, validate(Schema.RefreshToken, 'body'), async (req, res, next) => {
   try {
-    res.json(await logoutService(req.body))
+    res.json(await Service.logout(req.body))
   } catch (error) {
     next(error)
   }
