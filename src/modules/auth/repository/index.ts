@@ -6,11 +6,12 @@ import bcryptRounds from '../../../config/bcryptRounds'
 
 const Users = () => database<User>('users')
 const Tokens = () => database<Token>('tokens')
+const timestamp = new Date()
 
 export const registerRepository = (data: User) => {
   return Users().insert(Object.assign(data, {
-    created_at: new Date(),
-    updated_at: new Date()
+    created_at: timestamp,
+    updated_at: timestamp
   }))
 }
 
@@ -21,8 +22,8 @@ export const userRepository = (key: string, value: number | string) => {
 export const storeRefreshTokenRepository = (data: Token) => {
   return Tokens().insert(Object.assign(data, {
     token: uuidv4(),
-    created_at: new Date(),
-    updated_at: new Date()
+    created_at: timestamp,
+    updated_at: timestamp
   }))
 }
 
