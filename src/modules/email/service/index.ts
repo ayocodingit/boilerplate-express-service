@@ -1,6 +1,8 @@
-import { Mail } from '../entity'
-import { sendMailRepository } from '../repository'
+import { Email as Entity } from '../entity'
+import { Email as Repository } from '../repository'
 
-export const sendMailService = (data: Mail) => {
-  sendMailRepository(data)
+export namespace Email {
+  export const sendMail = (data: Entity.Payload) => {
+    Repository.sendMail(data)
+  }
 }

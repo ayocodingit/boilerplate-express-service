@@ -1,70 +1,53 @@
-import { SignUpGoogle } from '../entity'
-import { getUserOauth } from '../repository'
-import { HttpError } from '../../../handler/exception'
-import httpStatus from 'http-status'
+import { Oauth as Repository } from '../repository'
 import { checkError, existsRule, uniqueRule } from '../../../helpers/rules'
-import { responseJwt } from '../../auth/service'
-import { OAuth2Client } from 'google-auth-library'
-import config from '../../../config'
-import { Jwt, User } from '../../auth/entity'
-import { passwordHashRepository, registerRepository } from '../../auth/repository'
-const googleClient = new OAuth2Client(config.get('google.client.id'), config.get('google.client.secret'))
+import { Auth as Service } from '../../auth/service'
+import { Auth as AuthEntity } from '../../auth/entity'
+import { Auth as AuthRepository } from '../../auth/repository'
 
-export const signInService = async (body: any) : Promise<Jwt> => {
-  const payload = await getTokenInfoGoogle({
-    code: body.code,
-    redirect_uri: body.redirect_uri,
-    codeVerifier: body.code_verifier
-  })
+export namespace Oauth {
+  export const signIn = async (body: any) : Promise<AuthEntity.Jwt> => {
+    const payload = await Repository.tokenInfoGoogle({
+      code: body.code,
+      redirect_uri: body.redirect_uri,
+      codeVerifier: body.code_verifier
+    })
 
-  checkError(await existsRule('users', 'email', payload.email))
+    checkError(await existsRule('users', 'email', payload.email))
 
-  const user = await getUserOauth({
-    sub: payload.sub,
-    email: payload.email
-  })
+    const user = await Repository.userOauth({
+      sub: payload.sub,
+      email: payload.email
+    })
 
-  return await responseJwt(user)
-}
-
-export const signUpService = async (body: any) => {
-  const payload = await getTokenInfoGoogle({
-    code: body.code,
-    redirect_uri: body.redirect_uri,
-    codeVerifier: body.code_verifier
-  })
-
-  checkError(await uniqueRule('users', 'email', payload.email))
-
-  const data: User = {
-    email: payload.email,
-    username: payload.name,
-    role: body.role,
-    password: passwordHashRepository(Math.random().toString(36).substring(2, 15)),
-    oauth_code: payload.sub,
-    avatar: payload.picture,
-    is_active: false
+    return await Service.responseJwt(user)
   }
 
-  await registerRepository(data)
-
-  const user = await getUserOauth({
-    sub: payload.sub,
-    email: payload.email
-  })
-
-  return await responseJwt(user)
-}
-
-const getTokenInfoGoogle = async (data: SignUpGoogle) => {
-  try {
-    const { tokens } = await googleClient.getToken(data)
-    const ticket = await googleClient.verifyIdToken({
-      idToken: tokens.id_token
+  export const signUp = async (body: any) => {
+    const payload = await Repository.tokenInfoGoogle({
+      code: body.code,
+      redirect_uri: body.redirect_uri,
+      codeVerifier: body.code_verifier
     })
-    return ticket.getPayload()
-  } catch (error) {
-    console.log(error.message)
-    throw new HttpError(httpStatus.UNAUTHORIZED, error.message)
+
+    checkError(await uniqueRule('users', 'email', payload.email))
+
+    const data: AuthEntity.User = {
+      email: payload.email,
+      username: payload.name,
+      role: body.role,
+      password: AuthRepository.passwordHash(Math.random().toString(36).substring(2, 15)),
+      oauth_code: payload.sub,
+      avatar: payload.picture,
+      is_active: false
+    }
+
+    await AuthRepository.register(data)
+
+    const user = await Repository.userOauth({
+      sub: payload.sub,
+      email: payload.email
+    })
+
+    return await Service.responseJwt(user)
   }
 }

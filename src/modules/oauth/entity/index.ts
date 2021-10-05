@@ -1,10 +1,12 @@
-export interface SignUpGoogle {
-  code: string
-  redirect_uri: string
-  codeVerifier: string
-}
+export namespace Oauth {
+  export interface SignUpGoogle {
+    code: string
+    redirect_uri: string
+    codeVerifier: string
+  }
 
-export interface UserOauth {
-  sub: string
-  email: string
+  export interface UserOauth {
+    sub: string
+    email: string
+  }
 }

@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 import config from '../../../config'
-import { Mail } from '../entity'
+import { Email as Entity } from '../entity'
 
 const transporter = nodemailer.createTransport({
   host: config.get('smtp.host'),
@@ -11,10 +11,11 @@ const transporter = nodemailer.createTransport({
     pass: config.get('mail.password')
   }
 })
-
-export const sendMailRepository = (mailOptions: Mail): void => {
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) throw err
-    console.log('Email sent: ' + info.response)
-  })
+export namespace Email {
+  export const sendMail = (mailOptions: Entity.Payload): void => {
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) throw err
+      console.log('Email sent: ' + info.response)
+    })
+  }
 }

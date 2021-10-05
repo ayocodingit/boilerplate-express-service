@@ -34,24 +34,21 @@ jobs:
         echo JWT_SECRET =${{ secrets.JWT_SECRET }} >> .env
         echo JWT_TTL =36000 >> .env
 
-    - name: Set up Node  
+    - name: Set up Node
       uses: actions/setup-node@master
       with:
         node-version: '14'
 
-    - name: Run Npm Install    
+    - name: Run Npm Install
       run: npm install
 
-    - name: Run Npm knex    
-      run: npm install -g knex
-
     - name: Run Testing
-      run: npm run test:unit
+      run: npm run test
 
     - name: Run Lint
       run: npm run lint
 
-    - name: Set Up Codeclimate and Send Report Codeclimate 
+    - name: Set Up Codeclimate and Send Report Codeclimate
       uses: paambaati/codeclimate-action@v2.7.5
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORT_ID }}

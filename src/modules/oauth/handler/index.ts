@@ -1,22 +1,22 @@
 import express from 'express'
 import httpStatus from 'http-status'
-import { signInService, signUpService } from '../service'
+import { Oauth as Service } from '../service'
 import { validate } from '../../../helpers/validator'
-import { LoginGoogleSchema, SignUpGoogleSchema } from '../schema'
+import { Oauth as Schema } from '../schema'
 
 const router = express.Router()
 
-router.post('/signup-with-google', validate(SignUpGoogleSchema, 'body'), async (req, res, next) => {
+router.post('/signup-with-google', validate(Schema.SignUpGoogle, 'body'), async (req, res, next) => {
   try {
-    res.status(httpStatus.CREATED).json(await signUpService(req.body))
+    res.status(httpStatus.CREATED).json(await Service.signUp(req.body))
   } catch (error) {
     next(error)
   }
 })
 
-router.post('/login-with-google', validate(LoginGoogleSchema, 'body'), async (req, res, next) => {
+router.post('/login-with-google', validate(Schema.LoginGoogle, 'body'), async (req, res, next) => {
   try {
-    res.json(await signInService(req.body))
+    res.json(await Service.signIn(req.body))
   } catch (error) {
     next(error)
   }

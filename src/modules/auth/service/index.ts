@@ -1,5 +1,5 @@
-import { Jwt, Token, User } from '../entity'
-import { tokenRepository, userRepository, registerRepository, storeRefreshTokenRepository, passwordHashRepository, removeTokenRepository } from '../repository'
+import { Auth as Entity } from '../entity'
+import { Auth as Repository } from '../repository'
 import bcrypt from 'bcrypt'
 import { HttpError } from '../../../handler/exception'
 import httpStatus from 'http-status'
@@ -8,75 +8,77 @@ import jwt from 'jsonwebtoken'
 import config from '../../../config'
 import { checkError, uniqueRule } from '../../../helpers/rules'
 
-export const registerService = async (body: any) => {
-  checkError(await uniqueRule('users', 'email', body.email))
+export namespace Auth {
+  export const register = async (body: any) => {
+    checkError(await uniqueRule('users', 'email', body.email))
 
-  const data: User = {
-    email: body.email,
-    username: body.username,
-    role: body.role,
-    password: passwordHashRepository(body.password),
-    is_active: false
-  }
-
-  return registerRepository(data)
-}
-
-export const loginService = async (body: any) : Promise<Jwt> => {
-  const user: User = await userRepository('email', body.email)
-  if (!user) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.user.failed'))
-
-  const match = await bcrypt.compare(body.password, user.password)
-  if (!match) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.password.failed'))
-
-  return await responseJwt(user)
-}
-
-export const refreshTokenService = async (body: any): Promise<Jwt> => {
-  const token: Token = await tokenRepository('token', body.refresh_token)
-  if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
-
-  const user: User = await userRepository('id', token.user_id)
-  return await responseJwt(user, token.token)
-}
-
-export const logoutService = async (body: any) => {
-  const token = await removeTokenRepository('token', body.refresh_token)
-  if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
-  return { message: 'logout success' }
-}
-
-export const responseJwt = async (user: User, tokenOld?: string): Promise<Jwt> => {
-  delete user.password
-  const jwt = generateToken(user)
-  const token = tokenOld || await generateRefreshToken(user)
-
-  return {
-    type: 'bearer',
-    token: jwt,
-    refreshToken: token,
-    user: user
-  }
-}
-
-export const generateToken = (user: User): string => {
-  return jwt.sign(
-    { uid: user.id, user },
-    config.get('jwt.secret'),
-    {
-      expiresIn: Number(config.get('jwt.ttl')),
-      algorithm: 'RS256'
+    const data: Entity.User = {
+      email: body.email,
+      username: body.username,
+      role: body.role,
+      password: Repository.passwordHash(body.password),
+      is_active: false
     }
-  )
-}
 
-export const generateRefreshToken = async (user: User): Promise<string> => {
-  const tokens = await storeRefreshTokenRepository({
-    user_id: user.id,
-    is_revoked: false
-  })
+    return Repository.register(data)
+  }
 
-  const token = await tokenRepository('id', tokens[0])
+  export const login = async (body: any) : Promise<Entity.Jwt> => {
+    const user: Entity.User = await Repository.user('email', body.email)
+    if (!user) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.user.failed'))
 
-  return token.token
+    const match = await bcrypt.compare(body.password, user.password)
+    if (!match) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.password.failed'))
+
+    return await responseJwt(user)
+  }
+
+  export const refreshToken = async (body: any): Promise<Entity.Jwt> => {
+    const token: Entity.Token = await Repository.token('token', body.refresh_token)
+    if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+
+    const user: Entity.User = await Repository.user('id', token.user_id)
+    return await responseJwt(user, token.token)
+  }
+
+  export const logout = async (body: any) => {
+    const token = await Repository.removeToken('token', body.refresh_token)
+    if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
+    return { message: 'logout success' }
+  }
+
+  export const responseJwt = async (user: Entity.User, tokenOld?: string): Promise<Entity.Jwt> => {
+    delete user.password
+    const jwt = generateToken(user)
+    const token = tokenOld || await generateRefreshToken(user)
+
+    return {
+      type: 'bearer',
+      token: jwt,
+      refreshToken: token,
+      user: user
+    }
+  }
+
+  export const generateToken = (user: Entity.User): string => {
+    return jwt.sign(
+      { uid: user.id, user },
+      config.get('jwt.secret'),
+      {
+        expiresIn: Number(config.get('jwt.ttl')),
+        algorithm: 'RS256'
+      }
+    )
+  }
+
+  export const generateRefreshToken = async (user: Entity.User): Promise<string> => {
+    const tokens = await Repository.storeRefreshToken({
+      user_id: user.id,
+      is_revoked: false
+    })
+
+    const token = await Repository.token('id', tokens[0])
+
+    return token.token
+  }
 }

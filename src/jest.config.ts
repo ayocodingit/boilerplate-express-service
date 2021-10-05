@@ -17,7 +17,7 @@ export default async (): Promise<Config.InitialOptions> => {
       }
     },
     testMatch: [
-      "**/*.spec.ts"
+      '**/*.spec.ts'
     ],
     collectCoverage: true,
     collectCoverageFrom: [
