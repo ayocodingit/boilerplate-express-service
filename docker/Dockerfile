@@ -1,25 +1,24 @@
 FROM registry.digitalservice.id/proxyjds/library/alpine:3.12
 
-RUN apk add nodejs yarn && rm -rf /var/cache/apk/*
+RUN apk add nodejs npm && rm -rf /var/cache/apk/*
 
 WORKDIR /app
 
 ENV PORT 3003
 ENV NODE_ENV production
 
-COPY src/package.json ./
+COPY src/package*.json ./
 
-RUN yarn install
+RUN npm install
 
 COPY src .
 
 COPY docker .
 
-RUN yarn run build
+RUN npm run build
 
 RUN addgroup -S pptruser && adduser -S -g pptruser pptruser \
-    && mkdir -p /app \
-    && chown -R pptruser:pptruser /app 
+    && chown -R pptruser:pptruser /app
 
 USER pptruser
 
