@@ -1,3 +1,3 @@
 #!/bin/sh
-cd src/build
+cd build
 node server.js
