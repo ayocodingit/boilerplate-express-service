@@ -1,2 +1,7 @@
 mysql
 redis
+.env
+node_modules
+build
+*.sqlite
+coverage
