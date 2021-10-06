@@ -4,7 +4,6 @@ import httpStatus from 'http-status'
 import config from '../config'
 import { Request, Response, NextFunction } from 'express'
 
-
 export const onError = (error: any, req: Request, res: Response, next: NextFunction) => {
   error.code = typeof error.code === 'string' ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
 
@@ -36,7 +35,9 @@ export class HttpError extends CustomError {
 
 const messageError = (error: any) => {
   if (error.isObject) return { errors: JSON.parse(error.message) }
+
   const isEnvProduction: boolean = config.get('node.env') === 'production' && error.code >= httpStatus.INTERNAL_SERVER_ERROR
-  const message = isEnvProduction ? httpStatus[Number(error.code)] : error.message
+  const message: string = isEnvProduction ? httpStatus[Number(error.code)] : error.message
+
   return { error: message }
 }

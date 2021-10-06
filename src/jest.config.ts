@@ -26,7 +26,7 @@ export default async (): Promise<Config.InitialOptions> => {
       '!./modules/**/*_schema.ts',
       '!./modules/**/*_test.ts',
       '!./modules/email/*.ts',
-      '!./modules/oauth/*.ts',
+      '!./modules/oauth/*.ts'
     ],
     coverageReporters: ['lcov'],
     detectOpenHandles: true
