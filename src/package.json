@@ -64,7 +64,7 @@
     "refresh": "knex migrate:rollback",
     "up": "knex migrate:up",
     "down": "knex migrate:down",
-    "test": "ENV_FILE=.env.test && knex migrate:rollback --env test && knex migrate:latest --env test && jest"
+    "test": "knex migrate:rollback --env test && knex migrate:latest --env test && jest"
   },
   "author": "ayocodingit",
   "license": "MIT"
