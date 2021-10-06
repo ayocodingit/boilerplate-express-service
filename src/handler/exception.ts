@@ -2,8 +2,10 @@ import Sentry from '../config/sentry'
 import { CustomError } from 'ts-custom-error'
 import httpStatus from 'http-status'
 import config from '../config'
+import { Request, Response, NextFunction } from 'express'
 
-export const onError = (error: any, req: any, res: any, next: any) => {
+
+export const onError = (error: any, req: Request, res: Response, next: NextFunction) => {
   error.code = typeof error.code === 'string' ? error.status || httpStatus.INTERNAL_SERVER_ERROR : error.code
 
   if (error.code >= httpStatus.INTERNAL_SERVER_ERROR) {
