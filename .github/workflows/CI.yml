@@ -33,6 +33,7 @@ jobs:
         echo JWT_PUBLIC =${{ secrets.JWT_PUBLIC }} >> .env
         echo JWT_SECRET =${{ secrets.JWT_SECRET }} >> .env
         echo JWT_TTL =36000 >> .env
+        echo DB_CONNECTION =mysql >> .env
 
     - name: Set up Node
       uses: actions/setup-node@master
