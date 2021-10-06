@@ -15,7 +15,7 @@ class App {
   constructor() {
     this.app = express()
     this.plugins()
-    this.modules()
+    this.handlers()
   }
 
   protected plugins(): void {
@@ -28,7 +28,7 @@ class App {
     this.app.use(onError)
   }
 
-  protected modules(): void {
+  protected handlers(): void {
     this.app.use('/api', auth)
     this.app.use('/api', oauth)
   }
