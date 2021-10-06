@@ -1,24 +1,40 @@
 import bodyParser from 'body-parser'
-import express from 'express'
+import express, { Application } from 'express'
 import auth from './modules/auth/handler'
 import oauth from './modules/oauth/handler'
 import config from './config'
 import { onError } from './handler/exception'
 import sentryTransaction from './middleware/sentry'
 import cors from 'cors'
+import helmet from 'helmet'
+import compression from 'compression'
 
-const app = express()
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
-app.use(cors())
+class App {
+  public app: Application
 
-app.use(sentryTransaction)
-// load module
-app.use('/api', auth)
-app.use('/api', oauth)
-// end load module
-app.use(onError)
+  constructor() {
+    this.app = express()
+    this.plugins()
+    this.modules()
+  }
 
+  protected plugins(): void {
+    this.app.use(bodyParser.urlencoded({ extended: true }))
+    this.app.use(bodyParser.json())
+    this.app.use(cors())
+    this.app.use(helmet())
+    this.app.use(compression())
+    this.app.use(sentryTransaction)
+    this.app.use(onError)
+  }
+
+  protected modules(): void {
+    this.app.use('/api', auth)
+    this.app.use('/api', oauth)
+  }
+}
+
+const app = new App().app
 const PORT = config.get('port')
 app.listen(PORT, () => {
   console.log(`App listening at http://0.0.0.0:${PORT}`)

@@ -1,9 +1,10 @@
 import httpStatus from 'http-status'
 import Joi, { Schema } from 'joi'
 import lang from '../../lang'
+import { Request, Response, NextFunction } from 'express'
 
 export const validate = (schema: Schema, property: string) => {
-  return (req: any, res: any, next: any) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     const { error } = schema.validate(req[property], { abortEarly: false })
 
     if (!error) return next()
