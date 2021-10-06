@@ -1,8 +1,8 @@
-import { Oauth as Repository } from '../repository'
-import { checkError, existsRule, uniqueRule } from '../../../helpers/rules'
-import { Auth as Service } from '../../auth/service'
-import { Auth as AuthEntity } from '../../auth/entity'
-import { Auth as AuthRepository } from '../../auth/repository'
+import { Oauth as Repository } from './oauth_repository'
+import { checkError, existsRule, uniqueRule } from '../../helpers/rules'
+import { Auth as Service } from '../auth/auth_service'
+import { Auth as AuthEntity } from '../auth/auth_entity'
+import { Auth as AuthRepository } from '../auth/auth_repository'
 
 export namespace Oauth {
   export const signIn = async (body: any) : Promise<AuthEntity.Jwt> => {

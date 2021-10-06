@@ -1,9 +1,9 @@
 import express, { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import { Auth as Service } from '../service'
-import { validate } from '../../../helpers/validator'
-import { Auth as Schema } from '../schema'
-import jwt from '../../../middleware/jwt'
+import { Auth as Service } from './auth_service'
+import { validate } from '../../helpers/validator'
+import { Auth as Schema } from './auth_schema'
+import jwt from '../../middleware/jwt'
 
 const router = express.Router()
 

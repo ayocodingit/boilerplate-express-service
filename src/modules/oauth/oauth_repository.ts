@@ -1,9 +1,9 @@
-import database from '../../../config/database'
-import { Auth } from '../../auth/entity'
-import { Oauth as Entity } from '../entity'
-import { HttpError } from '../../../handler/exception'
+import database from '../../config/database'
+import { Auth } from '../auth/auth_entity'
+import { Oauth as Entity } from './oauth_entity'
+import { HttpError } from '../../handler/exception'
 import { OAuth2Client } from 'google-auth-library'
-import config from '../../../config'
+import config from '../../config'
 import httpStatus from 'http-status'
 
 const googleClient = new OAuth2Client(config.get('google.client.id'), config.get('google.client.secret'))
