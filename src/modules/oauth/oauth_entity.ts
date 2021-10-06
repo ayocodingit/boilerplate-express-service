@@ -9,4 +9,11 @@ export namespace Oauth {
     sub: string
     email: string
   }
+
+  export interface Schema {
+    code: string
+    redirect_uri: string
+    code_verifier: string
+    role?: string
+  }
 }

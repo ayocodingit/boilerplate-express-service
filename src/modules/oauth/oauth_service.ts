@@ -3,9 +3,10 @@ import { checkError, existsRule, uniqueRule } from '../../helpers/rules'
 import { Auth as Service } from '../auth/auth_service'
 import { Auth as AuthEntity } from '../auth/auth_entity'
 import { Auth as AuthRepository } from '../auth/auth_repository'
+import { Oauth as Entity } from './oauth_entity'
 
 export namespace Oauth {
-  export const signIn = async (body: any) : Promise<AuthEntity.Jwt> => {
+  export const signIn = async (body: Entity.Schema) : Promise<AuthEntity.Jwt> => {
     const payload = await Repository.tokenInfoGoogle({
       code: body.code,
       redirect_uri: body.redirect_uri,
@@ -22,7 +23,7 @@ export namespace Oauth {
     return await Service.responseJwt(user)
   }
 
-  export const signUp = async (body: any) => {
+  export const signUp = async (body: Entity.Schema) => {
     const payload = await Repository.tokenInfoGoogle({
       code: body.code,
       redirect_uri: body.redirect_uri,

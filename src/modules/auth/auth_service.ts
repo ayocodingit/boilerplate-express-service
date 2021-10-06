@@ -9,7 +9,7 @@ import config from '../../config'
 import { checkError, uniqueRule } from '../../helpers/rules'
 
 export namespace Auth {
-  export const register = async (body: any) => {
+  export const register = async (body: Entity.User) => {
     checkError(await uniqueRule('users', 'email', body.email))
 
     const data: Entity.User = {
@@ -23,7 +23,7 @@ export namespace Auth {
     return Repository.register(data)
   }
 
-  export const login = async (body: any) : Promise<Entity.Jwt> => {
+  export const login = async (body: Entity.Login) : Promise<Entity.Jwt> => {
     const user: Entity.User = await Repository.user('email', body.email)
     if (!user) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.user.failed'))
 
@@ -33,7 +33,7 @@ export namespace Auth {
     return await responseJwt(user)
   }
 
-  export const refreshToken = async (body: any): Promise<Entity.Jwt> => {
+  export const refreshToken = async (body: Entity.RefreshToken): Promise<Entity.Jwt> => {
     const token: Entity.Token = await Repository.token('token', body.refresh_token)
     if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
@@ -41,7 +41,7 @@ export namespace Auth {
     return await responseJwt(user, token.token)
   }
 
-  export const logout = async (body: any) => {
+  export const logout = async (body: Entity.RefreshToken) => {
     const token = await Repository.removeToken('token', body.refresh_token)
     if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
     return { message: 'logout success' }

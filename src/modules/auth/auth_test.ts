@@ -103,7 +103,7 @@ describe('auth', () => {
   it('error refresh token test', async () => {
     try {
       await Service.refreshToken({
-        refresh_token: 1234
+        refresh_token: '1234'
       })
     } catch (error) {
       expect(error)

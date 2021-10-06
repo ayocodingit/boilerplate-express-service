@@ -17,7 +17,7 @@ export const validate = (schema: Schema, property: string) => {
 }
 
 export const validateError = (details: Joi.ValidationErrorItem[]) => {
-  const isError: boolean = false
+  const isError = false
   const rules: any = {}
 
   for (const i of details) {

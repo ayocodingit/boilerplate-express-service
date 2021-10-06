@@ -23,4 +23,13 @@ export namespace Auth {
     refreshToken: string
     user: User
   }
+
+  export interface Login {
+    email: string,
+    password: string
+  }
+
+  export interface RefreshToken {
+    refresh_token: string,
+  }
 }

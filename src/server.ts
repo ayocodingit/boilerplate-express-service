@@ -45,5 +45,3 @@ const PORT = config.get('port')
 app.listen(PORT, () => {
   console.log(`App listening at http://0.0.0.0:${PORT}`)
 })
-
-export default app
