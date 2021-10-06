@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
-import config from '../../../config'
-import { Email as Entity } from '../entity'
+import config from '../../config'
+import { Email as Entity } from './email_entity'
 
 const transporter = nodemailer.createTransport({
   host: config.get('smtp.host'),

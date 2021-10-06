@@ -1,12 +1,12 @@
-import { Auth as Entity } from '../entity'
-import { Auth as Repository } from '../repository'
+import { Auth as Entity } from './auth_entity'
+import { Auth as Repository } from './auth_repository'
 import bcrypt from 'bcrypt'
-import { HttpError } from '../../../handler/exception'
+import { HttpError } from '../../handler/exception'
 import httpStatus from 'http-status'
-import lang from '../../../lang'
+import lang from '../../lang'
 import jwt from 'jsonwebtoken'
-import config from '../../../config'
-import { checkError, uniqueRule } from '../../../helpers/rules'
+import config from '../../config'
+import { checkError, uniqueRule } from '../../helpers/rules'
 
 export namespace Auth {
   export const register = async (body: any) => {
