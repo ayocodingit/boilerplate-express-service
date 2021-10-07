@@ -66,7 +66,7 @@ export namespace Auth {
       config.get('jwt.secret'),
       {
         expiresIn: Number(config.get('jwt.ttl')),
-        algorithm: 'RS256'
+        algorithm: config.get('jwt.algorithm')
       }
     )
   }

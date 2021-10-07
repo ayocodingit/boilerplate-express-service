@@ -1,48 +1,45 @@
-include ./src/.env
+include .env
 
-APP_PATH := cd ./src
 DOCKER_FILE_PATH := ./docker/Dockerfile.dev
-ENV_PATH := ./src/.env
 DOCKER_APP_NAME := express-app
-DOCKER_ENV_PATH := --env-file ${ENV_PATH}
-DOCKER_DEV := -f docker-compose-dev.yml ${DOCKER_ENV_PATH}
+DOCKER_DEV := -f docker-compose-dev.yml
 DOCKER_DEV_EXEC := ${DOCKER_DEV} exec ${DOCKER_APP_NAME}
 
 install:
-	${APP_PATH}; npm install
+	npm install
 
 dev:
-	${APP_PATH}; npm run dev
+	npm run dev
 
 start:
-	${APP_PATH}; npm run start
+	npm run start
 
 build:
-	${APP_PATH}; npm run build
+	npm run build
 
 lint:
-	${APP_PATH}; npm run lint
+	npm run lint
 
 migrate:
-	${APP_PATH}; npm run migrate
+	npm run migrate
 
 refresh:
-	${APP_PATH}; npm run refresh
+	npm run refresh
 
 up:
-	${APP_PATH}; npm run up
+	npm run up
 
 down:
-	${APP_PATH}; npm run down
+	npm run down
 
 docker-run:
-	docker-compose ${DOCKER_ENV_PATH} up -d
+	docker-compose up -d
 
 docker-stop:
-	docker-compose ${DOCKER_ENV_PATH} down
+	docker-compose down
 
 docker-build:
-	docker build ${DOCKER_ENV_PATH} -t boilerplate-express-service .
+	docker build -t boilerplate-express-service .
 
 docker-run-dev-build:
 	docker build -f ${DOCKER_FILE_PATH} -t boilerplate-express-service .

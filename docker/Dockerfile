@@ -7,13 +7,11 @@ WORKDIR /app
 ENV PORT 3003
 ENV NODE_ENV production
 
-COPY src/package*.json ./
+COPY package*.json ./
 
 RUN npm install
 
-COPY src .
-
-COPY docker .
+COPY . .
 
 RUN npm run build
 
@@ -24,6 +22,6 @@ USER pptruser
 
 EXPOSE ${PORT}
 
-RUN chmod +x ./entrypoint.sh
+RUN chmod +x ./docker/entrypoint.sh
 
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT [ "./docker/entrypoint.sh" ]

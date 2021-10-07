@@ -1,12 +1,18 @@
 import config from 'env-dot-prop'
 import dotEnv from 'dotenv'
-dotEnv.config()
+dotEnv.config({
+  path: '../.env'
+})
 
 const decodeBase64 = (key = '') => {
   return Buffer.from(key, 'base64').toString().replace(/\\n/g, '\n')
 }
 
-config.set('jwt.secret', decodeBase64(config.get('jwt.secret')))
-config.set('jwt.public', decodeBase64(config.get('jwt.public')))
+// overide config
+config.set('jwt.secret', decodeBase64(config.get('jwt.secret', 'test')))
+config.set('jwt.public', decodeBase64(config.get('jwt.public', 'test')))
+config.set('jwt.algorithm', config.get('jwt.algorithm', 'HS256'))
+config.set('jwt.ttl', config.get('jwt.ttl', 36000))
+config.set('db.connection', config.get('db.connection', 'mysql'))
 
 export default config

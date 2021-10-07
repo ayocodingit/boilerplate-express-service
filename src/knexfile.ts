@@ -1,4 +1,5 @@
 import config from './config'
+import path from 'path'
 
 export default {
   development: {
@@ -38,7 +39,7 @@ export default {
   test: {
     client: 'sqlite',
     connection: {
-      filename: './local.sqlite'
+      filename: path.join(__dirname, 'local.sqlite')
     },
     useNullAsDefault: true
   }

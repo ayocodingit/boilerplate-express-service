@@ -59,14 +59,14 @@
   },
   "scripts": {
     "start": "node build/server.js",
-    "dev": "nodemon server.ts",
-    "build": "tsc --project ./",
-    "lint": "eslint --fix --ext .ts .",
-    "migrate": "knex migrate:latest",
-    "refresh": "knex migrate:rollback",
-    "up": "knex migrate:up",
-    "down": "knex migrate:down",
-    "test": "knex migrate:rollback --env test && knex migrate:latest --env test && NODE_ENV=test jest"
+    "dev": "nodemon src/server.ts",
+    "build": "rm -rf build && tsc --project .",
+    "lint": "eslint --fix --ext .ts ./src",
+    "migrate": "knex migrate:latest --cwd=./src",
+    "refresh": "knex migrate:rollback --cwd=./src",
+    "up": "knex migrate:up --cwd=./src",
+    "down": "knex migrate:down --cwd=./src",
+    "test": "NODE_ENV=test npm run refresh && NODE_ENV=test npm run migrate --env test && jest --config ./src/jest.config.ts"
   },
   "author": "ayocodingit",
   "license": "MIT"

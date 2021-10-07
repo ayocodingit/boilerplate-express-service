@@ -13,13 +13,13 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     networks:
       - express-network
-  
+
   express-adminer:
     image: adminer
     container_name: "${APP_NAME}_ADMINER"
-    ports: 
+    ports:
       - '8081:8080'
-    networks: 
+    networks:
       - express-network
 
   express-redis:
@@ -39,7 +39,7 @@ services:
     container_name: "${APP_NAME}_APP"
     image: boilerplate-express-service
     env_file:
-      - src/.env
+      - .env
     environment:
       DB_HOST: express-mysql
       REDIS_HOST: express-redis
