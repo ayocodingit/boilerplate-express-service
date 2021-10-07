@@ -11,7 +11,7 @@ router.post('/signup-with-google', validate(Schema.SignUpGoogle, 'body'), async 
     res.status(httpStatus.CREATED).json(await Service.signUp({
       code: req.body.code,
       redirect_uri: req.body.redirect_uri,
-      code_verifier: req.body.code_verifier,
+      code_verifier: req.body.code_verifier
     }))
   } catch (error) {
     next(error)

@@ -15,7 +15,7 @@ router.post('/register', validate(Schema.Register, 'body'), async (req: Request,
       username: req.body.username,
       role: req.body.role,
       password: req.body.password,
-      is_active: false,
+      is_active: false
     })
     res.status(httpStatus.CREATED).json({ message: 'CREATED' })
   } catch (error) {
@@ -27,7 +27,7 @@ router.post('/login', validate(Schema.Login, 'body'), async (req: Request, res: 
   try {
     res.json(await Service.login({
       email: req.body.email,
-      password: req.body.password,
+      password: req.body.password
     }))
   } catch (error) {
     next(error)

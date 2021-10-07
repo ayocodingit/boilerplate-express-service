@@ -3,7 +3,7 @@
     "commonjs": true,
     "es2021": true
   },
-  "extends": ["plugin:@typescript-eslint/eslint-recommended"],
+  "extends": "standard",
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly",
