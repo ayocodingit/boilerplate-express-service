@@ -2,13 +2,13 @@ FROM node:14-slim
 
 WORKDIR /app
 
-COPY src/package.json .
+COPY src/package*.json ./
 
 ENV PORT 3003
 
-RUN npm install && npm install -g nodemon && npm i -g knex
+RUN npm install
 
 EXPOSE ${PORT}
 
-CMD [ "nodemon", "server.ts" ]
+CMD [ "npm", "run", "dev" ]
 

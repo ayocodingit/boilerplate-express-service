@@ -58,7 +58,7 @@
     "ts-jest": "^27.0.5"
   },
   "scripts": {
-    "start": "node server.ts",
+    "start": "node build/server.js",
     "dev": "nodemon server.ts",
     "build": "tsc --project ./",
     "lint": "eslint --fix --ext .ts .",
@@ -66,7 +66,7 @@
     "refresh": "knex migrate:rollback",
     "up": "knex migrate:up",
     "down": "knex migrate:down",
-    "test": "knex migrate:rollback --env test && knex migrate:latest --env test && jest"
+    "test": "knex migrate:rollback --env test && knex migrate:latest --env test && NODE_ENV=test jest"
   },
   "author": "ayocodingit",
   "license": "MIT"
