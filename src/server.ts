@@ -9,6 +9,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
+import database from './config/database'
 
 class App {
   public app: Application
@@ -40,8 +41,19 @@ class App {
   }
 }
 
-const app = new App().app
-const PORT = config.get('port')
-app.listen(PORT, () => {
-  console.log(`App listening at http://0.0.0.0:${PORT}`)
-})
+async function checkDatabaseConnection () {
+  return database.raw('select 1+1 as result')
+    .catch((err) => {
+      console.log(err.message)
+      process.exit(1)
+    })
+}
+
+(async () => {
+  await checkDatabaseConnection()
+  const app = new App().app
+  const PORT = config.get('port')
+  app.listen(PORT, () => {
+    console.log(`App listening at http://0.0.0.0:${PORT}`)
+  })
+})()

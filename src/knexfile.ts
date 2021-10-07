@@ -15,7 +15,11 @@ const databaseConfig = {
     max: Number(config.get('db.pool.max', 100))
   },
   migrations: {
-    tableName: 'migrations'
+    tableName: 'migrations',
+    directory: path.join(__dirname, 'database/migrations')
+  },
+  seeds: {
+    directory: path.join(__dirname, 'database/seeds')
   }
 }
 
@@ -25,8 +29,15 @@ export default {
   test: {
     client: 'sqlite',
     connection: {
-      filename: path.join(__dirname, 'local.sqlite')
+      filename: path.join(__dirname, 'database/local.sqlite')
     },
-    useNullAsDefault: true
+    useNullAsDefault: true,
+    migrations: {
+      tableName: 'migrations',
+      directory: path.join(__dirname, 'database/migrations')
+    },
+    seeds: {
+      directory: path.join(__dirname, 'database/seeds')
+    }
   }
 }
