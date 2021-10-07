@@ -8,7 +8,11 @@ const router = express.Router()
 
 router.post('/signup-with-google', validate(Schema.SignUpGoogle, 'body'), async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.status(httpStatus.CREATED).json(await Service.signUp(req.body))
+    res.status(httpStatus.CREATED).json(await Service.signUp({
+      code: req.body.code,
+      redirect_uri: req.body.redirect_uri,
+      code_verifier: req.body.code_verifier,
+    }))
   } catch (error) {
     next(error)
   }
@@ -16,7 +20,12 @@ router.post('/signup-with-google', validate(Schema.SignUpGoogle, 'body'), async 
 
 router.post('/login-with-google', validate(Schema.LoginGoogle, 'body'), async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json(await Service.signIn(req.body))
+    res.json(await Service.signIn({
+      code: req.body.code,
+      redirect_uri: req.body.redirect_uri,
+      code_verifier: req.body.code_verifier,
+      role: req.body.role
+    }))
   } catch (error) {
     next(error)
   }

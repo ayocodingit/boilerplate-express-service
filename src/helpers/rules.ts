@@ -1,7 +1,7 @@
 import httpStatus from 'http-status'
-import database from '../../config/database'
-import { HttpError } from '../../handler/exception'
-import { message } from '../validator'
+import database from '../config/database'
+import { HttpError } from '../handler/exception'
+import { message } from './validator'
 
 interface rulesInterface {
   isError: boolean,

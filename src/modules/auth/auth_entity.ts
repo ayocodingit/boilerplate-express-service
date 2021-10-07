@@ -32,4 +32,8 @@ export namespace Auth {
   export interface RefreshToken {
     refresh_token: string,
   }
+
+  export interface RequestJwtUser {
+    user?: User
+  }
 }

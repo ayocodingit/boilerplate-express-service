@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { Auth as Service } from './auth_service'
 
 let auth: any = {}
