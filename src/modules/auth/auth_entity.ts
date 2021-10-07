@@ -36,4 +36,19 @@ export namespace Auth {
   export interface RequestJwtUser {
     user?: User
   }
+
+  export const auth = {
+    email: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    }
+  }
 }

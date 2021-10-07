@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
 import { Oauth as Service } from './oauth_service'
 import { validate } from '../../helpers/validator'
-import { Oauth as Schema } from './oauth_schema'
+import { Oauth as Schema } from './oauth_rules'
 
 const router = express.Router()
 

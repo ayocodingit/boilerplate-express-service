@@ -3,7 +3,7 @@ import httpStatus from 'http-status'
 import { Auth as Service } from './auth_service'
 import { Auth as Entity } from './auth_entity'
 import { validate } from '../../helpers/validator'
-import { Auth as Schema } from './auth_schema'
+import { Auth as Schema } from './auth_rules'
 import jwt from '../../middleware/jwt'
 
 const router = express.Router()
