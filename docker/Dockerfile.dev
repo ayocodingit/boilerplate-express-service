@@ -2,7 +2,7 @@ FROM node:14-slim
 
 WORKDIR /app
 
-COPY src/package*.json ./
+COPY package*.json ./
 
 ENV PORT 3003
 

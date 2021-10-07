@@ -34,14 +34,14 @@ services:
     container_name: "${APP_NAME}_APP"
     image: boilerplate-express-service
     env_file:
-      - src/.env
+      - .env
     environment:
       DB_HOST: express-mysql
       REDIS_HOST: express-redis
     ports:
       - "${PORT}:${PORT}"
     depends_on:
-      - adonis-mysql
+      - express-mysql
       - express-redis
     networks:
       - express-network
