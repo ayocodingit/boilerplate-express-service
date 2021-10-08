@@ -1,17 +1,5 @@
 version: '3'
 services:
-  express-mongo:
-    image: mongo
-    container_name: "${APP_NAME}_MONGO"
-    ports:
-      - "${MONGO_PORT}:27017"
-    restart: always
-    volumes:
-      - $PWD/mongodb:/data/db
-      - $PWD/mongodb_config:/data/configdb
-    networks:
-      - express-network
-
   express-mysql:
     image: mysql
     container_name: "${APP_NAME}_MYSQL"
