@@ -4,10 +4,12 @@ import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
 import bcryptRounds from '../../config/bcryptRounds'
 
-const Users = () => database<Entity.User>('users')
-const Tokens = () => database<Entity.Token>('tokens')
 const timestamp = new Date()
 export namespace Auth {
+  export const Users = () => database<Entity.User>('users')
+
+  export const Tokens = () => database<Entity.Token>('tokens')
+
   export const register = (data: Entity.User) => {
     return Users().insert(Object.assign(data, {
       created_at: timestamp,
