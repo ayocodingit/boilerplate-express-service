@@ -1,4 +1,6 @@
 import { Auth as Service } from './auth_service'
+import request from 'supertest'
+import app from '../../server'
 
 let auth: any = {}
 
@@ -39,6 +41,30 @@ describe('auth', () => {
     })
     auth = response
     expect(response)
+  })
+})
+
+describe('auth with handler', () => {
+  it('login', async () => {
+    const response = await request(app)
+      .post('/v1/login')
+      .send({
+        email: 'test@gmail.com',
+        password: 'admin'
+      })
+
+    expect(response.statusCode).toEqual(200)
+  })
+
+  it('login with password incorrect', async () => {
+    const response = await request(app)
+      .post('/v1/login')
+      .send({
+        email: 'test@gmail.com',
+        password: 'admin123'
+      })
+
+    expect(response.statusCode).toEqual(401)
   })
 })
 

@@ -9,7 +9,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import connectionDB from './handler/connectionDB'
+import ping from './handler/ping'
 
 class App {
   public app: Application
@@ -34,7 +34,7 @@ class App {
   protected handlers (): void {
     this.app.use('/v1', auth)
     this.app.use('/v1', oauth)
-    this.app.use('/', connectionDB)
+    this.app.use('/', ping)
   }
 
   protected extends (): void {
@@ -43,9 +43,11 @@ class App {
 }
 
 const app = new App().app
-const PORT = config.get('port')
-app.listen(PORT, () => {
-  console.log(`App listening at http://0.0.0.0:${PORT}`)
-})
+if (config.get('node.env') !== 'test') {
+  const PORT = config.get('port')
+  app.listen(PORT, () => {
+    console.log(`App listening at http://0.0.0.0:${PORT}`)
+  })
+}
 
 export default app

@@ -25,10 +25,10 @@ export namespace Auth {
 
   export const login = async (body: Entity.Login) : Promise<Entity.Jwt> => {
     const user: Entity.User = await Repository.user('email', body.email)
-    if (!user) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.user.failed'))
+    if (!user) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
     const match = await bcrypt.compare(body.password, user.password)
-    if (!match) throw new HttpError(httpStatus.NOT_FOUND, lang.__('auth.password.failed'))
+    if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.password.failed'))
 
     return await responseJwt(user)
   }

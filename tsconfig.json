@@ -4,15 +4,19 @@
     "module": "commonjs",
     "rootDir": "./src",
     "outDir": "./build",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "strict": false,
     "declaration": true,
-    "resolveJsonModule": true,
     "removeComments": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "include": [
-    "./**/*.ts",
-    "./lang/**/*.json",
+    "*/lang/locales/*.json",
+    "*/*.ts",
+  ],
+  "exclude": [
+    "./coverage",
+    "**/*_test.ts"
   ]
 }

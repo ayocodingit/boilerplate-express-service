@@ -21,12 +21,9 @@ export default async (): Promise<Config.InitialOptions> => {
     ],
     collectCoverage: true,
     collectCoverageFrom: [
-      './modules/**/*.ts',
-      '!./modules/**/*_handler.ts',
-      '!./modules/**/*_schema.ts',
-      '!./modules/**/*_test.ts',
-      '!./modules/email/*.ts',
-      '!./modules/oauth/*.ts'
+      './src/modules/**/*.ts',
+      '!./src/modules/email/*.ts',
+      '!./src/modules/oauth/*.ts'
     ],
     coverageReporters: ['lcov'],
     detectOpenHandles: true

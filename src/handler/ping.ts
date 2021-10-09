@@ -4,7 +4,7 @@ import database from '../config/database'
 
 const router = express.Router()
 
-router.get('/connection-db', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/ping', async (req: Request, res: Response, next: NextFunction) => {
   try {
     await database.raw('select 1+1 as result')
     res.status(httpStatus.OK).json({ message: 'Connection DB is Ready' })
