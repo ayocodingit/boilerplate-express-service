@@ -13,7 +13,7 @@
   },
   "include": [
     "*/lang/locales/*.json",
-    "*/*.ts",
+    "*/**/*.ts"
   ],
   "exclude": [
     "./coverage",
