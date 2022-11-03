@@ -1,15 +1,14 @@
-import bodyParser from 'body-parser'
 import express, { Application } from 'express'
-import auth from './modules/auth/auth_handler'
-import oauth from './modules/oauth/oauth_handler'
-import config from './config'
-import { onError } from './handler/exception'
-import sentryTransaction from './middleware/sentry'
+import auth from '@/modules/auth/auth_handler'
+import oauth from '@/modules/oauth/oauth_handler'
+import config from '@/config'
+import { onError } from '@/handler/exception'
+import sentryTransaction from '@/middleware/sentry'
 import cors from 'cors'
 import helmet from 'helmet'
 import compression from 'compression'
 import morgan from 'morgan'
-import ping from './handler/ping'
+import ping from '@/handler/ping'
 
 class App {
   public app: Application
@@ -22,8 +21,8 @@ class App {
   }
 
   protected plugins (): void {
-    this.app.use(bodyParser.urlencoded({ extended: true }))
-    this.app.use(bodyParser.json())
+    this.app.use(express.urlencoded({ extended: true }))
+    this.app.use(express.json())
     this.app.use(cors())
     this.app.use(helmet())
     this.app.use(compression())
