@@ -1,9 +1,9 @@
-import { Oauth as Repository } from './oauth_repository'
-import { checkError, existsRule, uniqueRule } from '../../helpers/rules'
-import { Auth as Service } from '../auth/auth_service'
-import { Auth as AuthEntity } from '../auth/auth_entity'
-import { Auth as AuthRepository } from '../auth/auth_repository'
-import { Oauth as Entity } from './oauth_entity'
+import { Oauth as Repository } from '@/modules/oauth/oauth_repository'
+import { checkError, existsRule, uniqueRule } from '@/helpers/rules'
+import { Auth as Service } from '@/modules/auth/auth_service'
+import { Auth as AuthEntity } from '@/modules/auth/auth_entity'
+import { Auth as AuthRepository } from '@/modules/auth/auth_repository'
+import { Oauth as Entity } from '@/modules/oauth/oauth_entity'
 
 export namespace Oauth {
   export const signIn = async (body: Entity.Schema) : Promise<AuthEntity.Jwt> => {
@@ -20,7 +20,7 @@ export namespace Oauth {
       email: payload.email
     })
 
-    return await Service.responseJwt(user)
+    return Service.responseJwt(user)
   }
 
   export const signUp = async (body: Entity.Schema) => {
@@ -49,6 +49,6 @@ export namespace Oauth {
       email: payload.email
     })
 
-    return await Service.responseJwt(user)
+    return Service.responseJwt(user)
   }
 }

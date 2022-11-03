@@ -1,10 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import { Auth as Service } from './auth_service'
-import { Auth as Entity } from './auth_entity'
-import { validate } from '../../helpers/validator'
-import { Auth as Schema } from './auth_rules'
-import jwt from '../../middleware/jwt'
+import { Auth as Service } from '@/modules/auth/auth_service'
+import { Auth as Entity } from '@/modules/auth/auth_entity'
+import { validate } from '@/helpers/validator'
+import { Auth as Schema } from '@/modules/auth/auth_rules'
+import jwt from '@/middleware/jwt'
 
 const router = express.Router()
 

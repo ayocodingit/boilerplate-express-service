@@ -1,5 +1,5 @@
 import Jwt from 'express-jwt'
-import config from '../config'
+import config from '@/config'
 import { Request } from 'express'
 
 export default Jwt({

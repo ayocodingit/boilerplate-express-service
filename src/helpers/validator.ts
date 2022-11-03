@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import Joi, { Schema } from 'joi'
-import lang from '../lang'
+import lang from '@/lang'
 import { Request, Response, NextFunction } from 'express'
 
 export const validate = (schema: Schema, property: string) => {

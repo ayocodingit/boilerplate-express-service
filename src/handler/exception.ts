@@ -1,7 +1,7 @@
 import Sentry from '../config/sentry'
 import { CustomError } from 'ts-custom-error'
 import httpStatus from 'http-status'
-import config from '../config'
+import config from '@/config'
 import { Request, Response, NextFunction } from 'express'
 
 export const onError = (error: any, req: Request, res: Response, next: NextFunction) => {
