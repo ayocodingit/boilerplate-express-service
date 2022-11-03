@@ -1,9 +1,9 @@
-import { Oauth as Entity } from './oauth_entity'
-import { HttpError } from '../../handler/exception'
+import { Oauth as Entity } from '@/modules/oauth/oauth_entity'
+import { HttpError } from '@/handler/exception'
 import { OAuth2Client } from 'google-auth-library'
-import config from '../../config'
+import config from '@/config'
 import httpStatus from 'http-status'
-import { Auth as Repository } from '../auth/auth_repository'
+import { Auth as Repository } from '@/modules/auth/auth_repository'
 
 export namespace Oauth {
   export const userOauth = (data: Entity.UserOauth) => {

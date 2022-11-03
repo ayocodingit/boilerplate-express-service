@@ -1,12 +1,12 @@
-import { Auth as Entity } from './auth_entity'
-import { Auth as Repository } from './auth_repository'
+import { Auth as Entity } from '@/modules/auth/auth_entity'
+import { Auth as Repository } from '@/modules/auth/auth_repository'
 import bcrypt from 'bcrypt'
-import { HttpError } from '../../handler/exception'
+import { HttpError } from '@/handler/exception'
 import httpStatus from 'http-status'
-import lang from '../../lang'
+import lang from '@/lang'
 import jwt from 'jsonwebtoken'
-import config from '../../config'
-import { checkError, uniqueRule } from '../../helpers/rules'
+import config from '@/config'
+import { checkError, uniqueRule } from '@/helpers/rules'
 
 export namespace Auth {
   export const register = async (body: Entity.User) => {
@@ -30,7 +30,7 @@ export namespace Auth {
     const match = await bcrypt.compare(body.password, user.password)
     if (!match) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.password.failed'))
 
-    return await responseJwt(user)
+    return responseJwt(user)
   }
 
   export const refreshToken = async (body: Entity.RefreshToken): Promise<Entity.Jwt> => {
@@ -38,7 +38,7 @@ export namespace Auth {
     if (!token) throw new HttpError(httpStatus.UNAUTHORIZED, lang.__('auth.user.failed'))
 
     const user: Entity.User = await Repository.user('id', token.user_id)
-    return await responseJwt(user, token.token)
+    return responseJwt(user, token.token)
   }
 
   export const logout = async (body: Entity.RefreshToken) => {
