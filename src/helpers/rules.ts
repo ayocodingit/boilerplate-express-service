@@ -1,16 +1,16 @@
 import httpStatus from 'http-status'
-import database from '../config/database'
-import { HttpError } from '../handler/exception'
+import database from '@/config/database'
+import { HttpError } from '@/handler/exception'
 import { message } from './validator'
 
-interface rulesInterface {
+interface RulesInterface {
   isError: boolean,
   errors?: {
       [key: string]: string[]
   }
 }
 
-const rules: rulesInterface = {
+const rules: RulesInterface = {
   isError: false
 }
 
@@ -20,7 +20,7 @@ const data = (table: string, key: string, value: string, primaryKey?: string, pr
   return query.first()
 }
 
-export const uniqueRule = async (table: string, key: string, value: string, primaryKey?: string, primaryKeyValue?: string | number): Promise<rulesInterface> => {
+export const uniqueRule = async (table: string, key: string, value: string, primaryKey?: string, primaryKeyValue?: string | number): Promise<RulesInterface> => {
   const item: any = await data(table, key, value, primaryKey, primaryKeyValue)
 
   if (item) {
@@ -33,7 +33,7 @@ export const uniqueRule = async (table: string, key: string, value: string, prim
   return rules
 }
 
-export const existsRule = async (table: string, key: string, value: string): Promise<rulesInterface> => {
+export const existsRule = async (table: string, key: string, value: string): Promise<RulesInterface> => {
   const item: any = await data(table, key, value)
 
   if (!item) {
@@ -46,6 +46,6 @@ export const existsRule = async (table: string, key: string, value: string): Pro
   return rules
 }
 
-export const checkError = (rule: rulesInterface) => {
+export const checkError = (rule: RulesInterface) => {
   if (rule.isError) throw new HttpError(httpStatus.UNPROCESSABLE_ENTITY, JSON.stringify(rule.errors), true)
 }
