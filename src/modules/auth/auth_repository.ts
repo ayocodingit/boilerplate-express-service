@@ -1,8 +1,8 @@
-import database from '../../config/database'
-import { Auth as Entity } from './auth_entity'
+import database from '@/config/database'
+import { Auth as Entity } from '@/modules/auth/auth_entity'
 import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
-import bcryptRounds from '../../config/bcryptRounds'
+import bcryptRounds from '@/config/bcryptRounds'
 
 const timestamp = new Date()
 export namespace Auth {

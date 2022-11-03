@@ -10,6 +10,12 @@
     "declaration": true,
     "removeComments": true,
     "skipLibCheck": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@/*":[
+        "*"
+      ]
+    },
   },
   "include": [
     "*/lang/locales/*.json",

@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express'
 import httpStatus from 'http-status'
-import database from '../config/database'
+import database from '@/config/database'
 
 const router = express.Router()
 
